@@ -1,20 +1,29 @@
 import requests
-import json
 
-url = "http://localhost:5051/v1/account/email"
 
-payload = json.dumps({
-  "login": "ex adipisicing in pariatur ullamco",
-  "password": "s",
-  "email": "ut ut veniam Excepteur labore"
-})
-headers = {
-  'X-Dm-Auth-Token': '',
-  'X-Dm-Bb-Render-Mode': '',
-  'Content-Type': 'application/json',
-  'Accept': 'text/plain'
-}
+def put_v1_account_email():
+    """
+    Change registered user email
+    :return:
+    """
+    url = "http://localhost:5051/v1/account/email"
 
-response = requests.request("PUT", url, headers=headers, data=payload)
+    payload = {
+        "login": "ex adipisicing in pariatur ullamco",
+        "password": "s",
+        "email": "ut ut veniam Excepteur labore"
+    }
+    headers = {
+        'X-Dm-Auth-Token': '',
+        'X-Dm-Bb-Render-Mode': '',
+        'Content-Type': 'application/json',
+        'Accept': 'text/plain'
+    }
 
-print(response.text)
+    response = requests.request(
+        method="PUT",
+        url=url,
+        headers=headers,
+        json=payload
+    )
+    return response
