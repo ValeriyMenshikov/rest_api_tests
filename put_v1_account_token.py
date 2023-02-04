@@ -9,7 +9,6 @@ def put_v1_account_token():
     token = '12312312312'
     url = f"http://localhost:5051/v1/account/{token}"
 
-    payload = {}
     headers = {
         'X-Dm-Auth-Token': '',
         'X-Dm-Bb-Render-Mode': '',
@@ -20,6 +19,5 @@ def put_v1_account_token():
         method="PUT",
         url=url,
         headers=headers,
-        data=payload
     )
     return response
