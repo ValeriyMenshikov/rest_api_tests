@@ -1,9 +1,10 @@
 from requests import Response
-from ..models.registration_model import registration_model
+from ..models.registration_model import RegistrationModel
 from ..models.reset_password_model import reset_password_model
 from ..models.change_email_model import change_email_model
 from ..models.change_password_model import change_password_model
 from restclient.restclient import Restclient
+from dm_api_account.models.user_envelope_model import UserEnvelopeModel
 
 
 class AccountApi:
@@ -13,7 +14,7 @@ class AccountApi:
         if headers:
             self.client.session.headers.update(headers)
 
-    def post_v1_account(self, json: registration_model, **kwargs) -> Response:
+    def post_v1_account(self, json: RegistrationModel, **kwargs) -> Response:
         """
         Register new user
         :param json: registration_model
@@ -21,7 +22,7 @@ class AccountApi:
         """
         response = self.client.post(
             path=f"/v1/account",
-            json=json,
+            json=json.dict(by_alias=True, exclude_none=True),
             **kwargs
         )
         return response
@@ -76,6 +77,7 @@ class AccountApi:
             path=f"/v1/account/{token}",
             **kwargs
         )
+        UserEnvelopeModel(**response.json())
         return response
 
     def get_v1_account(self, **kwargs) -> Response:
