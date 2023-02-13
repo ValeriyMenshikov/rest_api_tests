@@ -1,6 +1,7 @@
 from requests import Response
-from ..models.login_credentials_model import login_credentials_model
+from dm_api_account.models import *
 from restclient.restclient import Restclient
+from dm_api_account.utilities import validate_request_json
 
 
 class LoginApi:
@@ -10,7 +11,7 @@ class LoginApi:
         if headers:
             self.client.session.headers.update(headers)
 
-    def post_v1_account_login(self, json: login_credentials_model) -> Response:
+    def post_v1_account_login(self, json: LoginCredentials) -> Response:
         """
         Authenticate via credentials
         :param json: login_credentials_model
@@ -19,7 +20,7 @@ class LoginApi:
 
         response = self.client.post(
             path=f"/v1/account/login",
-            json=json
+            json=validate_request_json(json)
         )
         return response
 
