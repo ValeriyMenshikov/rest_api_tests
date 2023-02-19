@@ -15,9 +15,9 @@ def test_post_v1_account():
     mailhog = MailhogApi(host='http://localhost:5025')
     api = DmApiAccount(host='http://localhost:5051')
     json = Registration(
-        login="login_17",
-        email="login_17@mail.ru",
-        password="login_17"
+        login="login_18",
+        email="login_18@mail.ru",
+        password="login_18"
     )
     response = api.account.post_v1_account(json=json)
 
