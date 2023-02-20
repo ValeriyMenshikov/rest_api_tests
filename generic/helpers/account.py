@@ -15,8 +15,8 @@ class Account:
         )
         return response
 
-    def activate_registered_user(self):
-        token = self.facade.mailhog.get_token_from_last_email()
+    def activate_registered_user(self, login: str):
+        token = self.facade.mailhog.get_token_by_login(login=login)
         response = self.facade.account_api.put_v1_account_token(
             token=token
         )

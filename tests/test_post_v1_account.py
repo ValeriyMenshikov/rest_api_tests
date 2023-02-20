@@ -11,16 +11,16 @@ structlog.configure(
 def test_post_v1_account():
     api = Facade(host='http://localhost:5051')
 
-    login = "login_21"
-    email = "login_21@mail.ru"
-    password = "login_21"
+    login = "login_24"
+    email = "login_24@mail.ru"
+    password = "login_24"
 
     response = api.account.register_new_user(
         login=login,
         email=email,
         password=password
     )
-    api.account.activate_registered_user()
+    api.account.activate_registered_user(login=login)
     api.login.login_user(
         login=login,
         password=password
