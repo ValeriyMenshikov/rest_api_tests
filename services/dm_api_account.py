@@ -4,6 +4,7 @@ from generic.helpers.mailhog import MailhogApi
 from generic.helpers.account import Account
 from generic.helpers.login import Login
 
+
 class Facade:
     def __init__(self, host, mailhog_host=None, headers=None):
         self.account_api = AccountApi(host, headers)
