@@ -4,3 +4,4 @@ structlog
 curlify
 pydantic
 pyhamcrest
+sqlalchemy
