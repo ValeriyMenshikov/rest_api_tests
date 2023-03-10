@@ -28,11 +28,11 @@ class OrmClient:
         )
         return dataset
 
-    # def send_bulk_query(self, query):
-    #     print(query)
-    #     log = self.log.bind(event_id=str(uuid.uuid4()))
-    #     log.msg(
-    #         event='request',
-    #         query=query
-    #     )
-    #     self.db.bulk_query(query=query)
+    def send_bulk_query(self, query):
+        print(query)
+        log = self.log.bind(event_id=str(uuid.uuid4()))
+        log.msg(
+            event='request',
+            query=str(query)
+        )
+        self.db.execute(statement=query)
