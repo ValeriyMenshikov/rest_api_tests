@@ -7,6 +7,7 @@ from sqlalchemy import create_engine
 class OrmClient:
     def __init__(self, user, password, host, database, isolation_level='AUTOCOMMIT'):
         connection_string = f"postgresql://{user}:{password}@{host}/{database}"
+        print(connection_string)
         self.engine = create_engine(connection_string, isolation_level=isolation_level)
         self.db = self.engine.connect()
         self.log = structlog.get_logger(self.__class__.__name__).bind(service='db')
