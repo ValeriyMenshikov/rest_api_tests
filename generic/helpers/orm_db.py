@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import select
 from generic.helpers.orm_models import User
 
@@ -13,7 +15,7 @@ class OrmDatabase:
         dataset = self.db.send_query(query)
         return dataset
 
-    def get_user_by_login(self, login):
+    def get_user_by_login(self, login) -> List[User]:
         query = select([User]).where(
             User.Login == login
         )

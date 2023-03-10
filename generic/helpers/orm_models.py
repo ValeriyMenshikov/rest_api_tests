@@ -1,3 +1,4 @@
+# coding: utf-8
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, SmallInteger, String, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -411,10 +412,41 @@ class Post(Base):
     Text = Column(String)
     Commentary = Column(String)
     MasterMessage = Column(String)
+    IsRemoved = Column(Boolean, nullable=False)
+
+    Character = relationship('Character')
+    User = relationship('User', primaryjoin='Post.LastUpdateUserId == User.UserId')
+    Room = relationship('Room')
+    User1 = relationship('User', primaryjoin='Post.UserId == User.UserId')
+
+
+class RoomClaim(Base):
+    __tablename__ = 'RoomClaims'
+
+    RoomClaimId = Column(UUID, primary_key=True)
+    ParticipantId = Column(ForeignKey('Characters.CharacterId', ondelete='CASCADE'),
+                           ForeignKey('Readers.ReaderId', ondelete='CASCADE'), nullable=False, index=True)
+    RoomId = Column(ForeignKey('Rooms.RoomId', ondelete='CASCADE'), nullable=False, index=True)
+    Policy = Column(Integer, nullable=False)
+
+    Reader = relationship('Reader')
+    Character = relationship('Character')
+    Room = relationship('Room')
+
+
+class Vote(Base):
+    __tablename__ = 'Votes'
+
+    VoteId = Column(UUID, primary_key=True)
+    PostId = Column(ForeignKey('Posts.PostId', ondelete='CASCADE'), nullable=False, index=True)
+    GameId = Column(ForeignKey('Games.GameId', ondelete='CASCADE'), nullable=False, index=True)
+    UserId = Column(ForeignKey('Users.UserId', ondelete='CASCADE'), nullable=False, index=True)
+    TargetUserId = Column(ForeignKey('Users.UserId', ondelete='CASCADE'), nullable=False, index=True)
+    CreateDate = Column(DateTime(True), nullable=False)
     Type = Column(Integer, nullable=False)
     SignValue = Column(SmallInteger, nullable=False)
 
-    # Game = relationship('Game')
-    # Post = relationship('Post')
-    # User = relationship('User', primaryjoin='Vote.TargetUserId == User.UserId')
-    # User1 = relationship('User', primaryjoin='Vote.UserId == User.UserId')
+    Game = relationship('Game')
+    Post = relationship('Post')
+    User = relationship('User', primaryjoin='Vote.TargetUserId == User.UserId')
+    User1 = relationship('User', primaryjoin='Vote.UserId == User.UserId')
