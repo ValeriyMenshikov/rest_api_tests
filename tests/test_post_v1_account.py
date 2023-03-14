@@ -1,47 +1,46 @@
 import time
-
-from generic.helpers.dm_db import DmDatabase
-from services.dm_api_account import Facade
-import structlog
-
-structlog.configure(
-    processors=[
-        structlog.processors.JSONRenderer(indent=4, sort_keys=True, ensure_ascii=False)
-    ]
-)
+import pytest
+from hamcrest import assert_that, has_entries
+from collections import namedtuple
 
 
-def test_post_v1_account():
-    api = Facade(host='http://localhost:5051')
-
-    login = "login_24"
-    email = "login_24@mail.ru"
-    password = "login_24"
-
-    db = DmDatabase(user='postgres', password='admin', host='localhost', database='dm3.5')
-    db.delete_user_by_login(login=login)
-    dataset = db.get_user_by_login(login=login)
+@pytest.fixture
+def prepare_user(dm_api_facade, dm_db):
+    user = namedtuple('User', 'login, email, password')
+    User = user(login="login_24", email="login_24@mail.ru", password="login_24")
+    dm_db.delete_user_by_login(login=User.login)
+    dataset = dm_db.get_user_by_login(login=User.login)
     assert len(dataset) == 0
+    dm_api_facade.mailhog.delete_all_messages()
 
-    api.mailhog.delete_all_messages()
+    return User
 
-    response = api.account.register_new_user(
+
+def test_post_v1_account(dm_api_facade, dm_db, prepare_user):
+    login = prepare_user.login
+    email = prepare_user.email
+    password = prepare_user.password
+    response = dm_api_facade.account.register_new_user(
         login=login,
         email=email,
         password=password
     )
-    dataset = db.get_user_by_login(login=login)
+    dataset = dm_db.get_user_by_login(login=login)
     for row in dataset:
-        assert row['Login'] == login, f'User {login} not registered'
-        assert row['Activated'] is False, f'User {login} was activated'
+        assert_that(row, has_entries(
+            {
+                'Login': login,
+                'Activated': False
+            }
+        ))
 
-    api.account.activate_registered_user(login=login)
+    dm_api_facade.account.activate_registered_user(login=login)
     time.sleep(2)
-    dataset = db.get_user_by_login(login=login)
+    dataset = dm_db.get_user_by_login(login=login)
     for row in dataset:
         assert row['Activated'] is True, f'User {login} not activated'
 
-    api.login.login_user(
+    dm_api_facade.login.login_user(
         login=login,
         password=password
     )
