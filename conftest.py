@@ -2,6 +2,8 @@ import pytest
 import structlog
 from vyper import v
 from pathlib import Path
+
+from generic.assertions.post_v1_account import AssertionsPostV1Account
 from generic.helpers.mailhog import MailhogApi
 from generic.helpers.dm_db import DmDatabase
 from services.dm_api_account import Facade
@@ -42,6 +44,11 @@ def dm_db():
         database=v.get('database.dm3_5.database')
     )
     return db
+
+
+@pytest.fixture
+def assertions(dm_db):
+    return AssertionsPostV1Account(dm_db)
 
 
 @pytest.fixture(autouse=True)
