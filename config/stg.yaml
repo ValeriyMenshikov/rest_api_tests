@@ -1,0 +1,13 @@
+service:
+  dm_api_account: http://localhost:5051
+  mailhog: http://localhost:5025
+
+database:
+  dm3_5:
+    host: localhost
+    port: 5432
+    database: dm3.5
+    user: postgres
+    password: admin
+
+
