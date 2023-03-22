@@ -1,3 +1,7 @@
+git+https://github.com/ValeriyMenshikov/orm_client.git
+git+https://github.com/ValeriyMenshikov/restclient.git
+git+https://github.com/ValeriyMenshikov/db_client.git
+git+https://github.com/ValeriyMenshikov/dm_api_account.git
 requests
 pytest
 structlog
