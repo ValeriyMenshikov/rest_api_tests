@@ -1,7 +1,7 @@
 import json
 import time
-from requests import session, Response
-from restclient.restclient import Restclient
+from requests import Response
+from common_libs.restclient.restclient import Restclient
 
 
 def decorator(fn):

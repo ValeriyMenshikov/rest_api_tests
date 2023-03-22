@@ -1,8 +1,7 @@
 import structlog
 from services.dm_api_account import Facade
-from dm_api_account.models.user_envelope_model import UserRole
+from apis.dm_api_account.models.user_envelope_model import UserRole
 from hamcrest import assert_that, has_properties
-import json
 
 structlog.configure(
     processors=[

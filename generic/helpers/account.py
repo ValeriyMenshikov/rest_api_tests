@@ -1,8 +1,13 @@
-from dm_api_account.models import Registration
+from apis.dm_api_account.models import Registration
+
+try:
+    from services.dm_api_account import Facade
+except ImportError:
+    ...
 
 
 class Account:
-    def __init__(self, facade):
+    def __init__(self, facade: Facade):
         self.facade = facade
 
     def set_headers(self, headers):

@@ -3,6 +3,7 @@ import pytest
 import random
 from collections import namedtuple
 from string import ascii_letters, digits
+from data.post_v1_account import PostV1AccountData as user_data
 
 
 def random_string():
@@ -21,7 +22,7 @@ class TestsPostV1Account:
     @pytest.fixture
     def prepare_user(self, dm_api_facade, dm_db):
         user = namedtuple('User', 'login, email, password')
-        User = user(login="login_24", email="login_24@mail.ru", password="login_24")
+        User = user(login=user_data.login, email=user_data.email, password=user_data.password)
         dm_db.delete_user_by_login(login=User.login)
         dataset = dm_db.get_user_by_login(login=User.login)
         assert len(dataset) == 0
