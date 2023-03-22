@@ -2,7 +2,6 @@ import pytest
 import structlog
 from vyper import v
 from pathlib import Path
-
 from generic.assertions.post_v1_account import AssertionsPostV1Account
 from generic.helpers.mailhog import MailhogApi
 from generic.helpers.dm_db import DmDatabase
@@ -34,16 +33,21 @@ options = (
     'database.dm3_5.host',
 )
 
+connect = None
+
 
 @pytest.fixture
 def dm_db():
-    db = DmDatabase(
-        user=v.get('database.dm3_5.user'),
-        password=v.get('database.dm3_5.password'),
-        host=v.get('database.dm3_5.host'),
-        database=v.get('database.dm3_5.database')
-    )
-    return db
+    global connect
+    if connect is None:
+        connect = DmDatabase(
+            user=v.get('database.dm3_5.user'),
+            password=v.get('database.dm3_5.password'),
+            host=v.get('database.dm3_5.host'),
+            database=v.get('database.dm3_5.database')
+        )
+    yield connect
+    connect.db.db.close()
 
 
 @pytest.fixture

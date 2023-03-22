@@ -1,3 +1,4 @@
+import allure
 from requests import Response
 from dm_api_account.models import *
 from dm_api_account.utilities import validate_request_json, validate_status_code
@@ -23,11 +24,13 @@ class AccountApi:
         :param json: registration_model
         :return:
         """
-        response = self.client.post(
-            path=f"/v1/account",
-            json=validate_request_json(json),
-            **kwargs
-        )
+        with allure.step("Регистрация нового пользователя"):
+            response = self.client.post(
+                path=f"/v1/account",
+                json=validate_request_json(json),
+                **kwargs
+            )
+
         validate_status_code(response, status_code)
         return response
 
@@ -103,10 +106,11 @@ class AccountApi:
         :return:
         """
 
-        response = self.client.put(
-            path=f"/v1/account/{token}",
-            **kwargs
-        )
+        with allure.step("Активация пользователя"):
+            response = self.client.put(
+                path=f"/v1/account/{token}",
+                **kwargs
+            )
         validate_status_code(response, status_code)
         if response.status_code == 200:
             return UserEnvelope(**response.json())

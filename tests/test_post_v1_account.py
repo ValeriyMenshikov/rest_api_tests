@@ -1,7 +1,6 @@
-import time
+import allure
 import pytest
 import random
-from hamcrest import assert_that, has_entries
 from collections import namedtuple
 from string import ascii_letters, digits
 
@@ -14,7 +13,11 @@ def random_string():
     return string
 
 
+@allure.suite("Тесты на проверку метода POST{host}/v1/account")
+@allure.sub_suite("Позитивные проверки")
 class TestsPostV1Account:
+
+    @allure.step("Подготовка тестового пользователя")
     @pytest.fixture
     def prepare_user(self, dm_api_facade, dm_db):
         user = namedtuple('User', 'login, email, password')
@@ -26,9 +29,10 @@ class TestsPostV1Account:
 
         return User
 
+    @allure.title("Проверка регистрации и активации пользователя")
     def test_register_and_activate_user(self, dm_api_facade, dm_db, prepare_user, assertions):
         """
-        Тест проверяет создание и активайию пользователя в базе данных
+        Тест проверяет создание и активацию пользователя в базе данных
         """
         login = prepare_user.login
         email = prepare_user.email
