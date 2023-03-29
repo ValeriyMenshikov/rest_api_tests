@@ -1,3 +1,4 @@
+import grpc
 import pytest
 import structlog
 from vyper import v
@@ -5,7 +6,10 @@ from pathlib import Path
 from generic.assertions.post_v1_account import AssertionsPostV1Account
 from generic.helpers.mailhog import MailhogApi
 from generic.helpers.dm_db import DmDatabase
+from generic.helpers.search import Search
 from services.dm_api_account import Facade
+from apis.dm_api_search_async import SearchEngineStub
+from grpclib.client import Channel
 
 structlog.configure(
     processors=[
@@ -48,6 +52,21 @@ def dm_db():
         )
     yield connect
     connect.db.db.close()
+
+
+@pytest.fixture
+def grpc_search():
+    client = Search(target='localhost:5052')
+    yield client
+    client.close()
+
+
+@pytest.fixture
+def grpc_search_async():
+    channel = Channel(host='localhost', port=5052)
+    client = SearchEngineStub(channel)
+    yield client
+    channel.close()
 
 
 @pytest.fixture
