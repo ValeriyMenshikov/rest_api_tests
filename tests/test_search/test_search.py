@@ -1,8 +1,6 @@
 import pprint
-
 import pytest
 from betterproto import Casing
-
 from apis.dm_api_search_async import SearchRequest, SearchEntityType
 
 
