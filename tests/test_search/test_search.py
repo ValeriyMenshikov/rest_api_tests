@@ -6,7 +6,7 @@ from apis.dm_api_search_async import SearchRequest, SearchEntityType
 
 def test_search(grpc_search):
     response = grpc_search.search(
-        query='test_post',
+        query='test',
         skip=0,
         size=10,
         search_across=['FORUM_TOPIC']

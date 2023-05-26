@@ -1,9 +1,18 @@
+import sqlalchemy
+
 from common_libs.db_client.db_client import DbClient
 
 
 class DmDatabase:
     def __init__(self, user, password, host, database):
         self.db = DbClient(user, password, host, database)
+
+    def is_valid(self):
+        try:
+            self.db.send_query('select 1')
+            return True
+        except:
+            return False
 
     def get_all_users(self):
         query = 'select * from "public"."Users"'

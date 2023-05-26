@@ -5,3 +5,10 @@ curlify
 pydantic
 pyhamcrest
 sqlalchemy
+grpcio
+grpcio-tools
+vyper-config
+allure-pytest
+records
+psycopg2
+sqlalchemy

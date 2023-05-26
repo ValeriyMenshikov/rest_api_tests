@@ -1,7 +1,7 @@
 from typing import List
 from sqlalchemy import select
 from generic.helpers.orm_models import User
-from orm_client.orm_client import OrmClient
+from common_libs.orm_client.orm_client import OrmClient
 
 
 class OrmDatabase:
@@ -9,7 +9,7 @@ class OrmDatabase:
         self.db = OrmClient(user, password, host, database)
 
     def get_all_users(self):
-        query = select([User])
+        query = select(User)
         dataset = self.db.send_query(query)
         return dataset
 

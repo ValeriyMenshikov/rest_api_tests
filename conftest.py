@@ -40,18 +40,23 @@ options = (
 connect = None
 
 
-@pytest.fixture
-def dm_db():
+@pytest.fixture(scope='function')
+def dm_db(request):
     global connect
-    if connect is None:
+    if connect is None or not connect.is_valid():
         connect = DmDatabase(
             user=v.get('database.dm3_5.user'),
             password=v.get('database.dm3_5.password'),
             host=v.get('database.dm3_5.host'),
             database=v.get('database.dm3_5.database')
         )
-    yield connect
-    connect.db.db.close()
+
+    def fin():
+        connect.db.db.close()
+
+    request.addfinalizer(fin)
+
+    return connect
 
 
 @pytest.fixture

@@ -24,6 +24,8 @@ class LoginApi:
             json=validate_request_json(json)
         )
         validate_status_code(response, status_code)
+        if response.status_code == 200:
+            UserEnvelope(**response.json())
         return response
 
     def delete_v1_account_login(self, status_code: int = 204, **kwargs, ) -> Response:
