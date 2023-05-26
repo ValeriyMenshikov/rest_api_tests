@@ -21,11 +21,11 @@ def random_string(begin=1, end=30):
 @allure.sub_suite("Позитивные проверки")
 class TestsPostV1Account:
     @pytest.mark.parametrize('login, email, password, status_code, check', [
-        ('12', '12@12.ru', '123456', 201, ''),
-        ('12', '12@12.ru', '12345', 400, {"Password": ["Short"]}),
-        ('1', '12@12.ru', '123456', 400, {"Login": ["Short"]}),
-        ('12', '12@', '123456', 400, {"Email": ["Invalid"]}),
-        ('12', '12', '123456', 400, {"Email": ["Invalid"]}),
+        (random_string(2), f'{random_string()}@{random_string()}.{random_string()}', random_string(6), 201, ''),
+        (random_string(2), f'{random_string()}@{random_string()}.{random_string()}', random_string(1, 5), 400, {"Password": ["Short"]}),
+        (random_string(1, 1), f'{random_string()}@{random_string()}.{random_string()}', random_string(6), 400, {"Login": ["Short"]}),
+        (random_string(2), f'{random_string(6)}@', random_string(6), 400, {"Email": ["Invalid"]}),
+        (random_string(2), random_string(1, 2), random_string(6), 400, {"Email": ["Invalid"]}),
     ])
     def test_create_and_activated_user_with_random_params(
             self,
