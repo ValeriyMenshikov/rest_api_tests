@@ -8,4 +8,6 @@ structlog
 curlify
 pydantic
 pyhamcrest
-sqlalchemy
+sqlalchemy==1.4.48
+records
+psycopg2
