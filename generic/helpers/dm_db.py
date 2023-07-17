@@ -1,6 +1,6 @@
 import allure
 
-from common_libs.db_client.db_client import DbClient
+from db_client.db_client import DbClient
 
 
 class DmDatabase:

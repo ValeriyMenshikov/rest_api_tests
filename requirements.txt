@@ -46,3 +46,8 @@ typing_extensions==4.5.0
 urllib3==2.0.2
 vyper-config==1.1.1
 watchdog==3.0.0
+git+https://github.com/ValeriyMenshikov/dm_api_account.git
+git+https://github.com/ValeriyMenshikov/db_client.git
+git+https://github.com/ValeriyMenshikov/orm_client.git
+git+https://github.com/ValeriyMenshikov/restclient.git
+

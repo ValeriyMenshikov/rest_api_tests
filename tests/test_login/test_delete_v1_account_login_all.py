@@ -12,4 +12,4 @@ def test_del_v1_account_login(dm_api_facade, prepare_user):
     dm_api_facade.account.activate_registered_user(login=login)
     token = dm_api_facade.login.get_auth_token(login=login, password=password)
     dm_api_facade.login.set_headers(headers=token)
-    dm_api_facade.login.logout_user()
+    dm_api_facade.login.logout_user_from_every_device()

@@ -3,7 +3,7 @@ from typing import List
 import allure
 from sqlalchemy import select, delete, update
 from generic.helpers.orm_models import User
-from common_libs.orm_client.orm_client import OrmClient
+from orm_client.orm_client import OrmClient
 
 
 class OrmDatabase:

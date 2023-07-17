@@ -1,9 +1,10 @@
 import allure
-from apis.dm_api_account.models import LoginCredentials
+from dm_api_account.models import LoginCredentials
 
 
 class Login:
     def __init__(self, facade):
+        from services.dm_api_account import Facade
         self.facade = facade
 
     def set_headers(self, headers):
@@ -28,8 +29,8 @@ class Login:
 
     def logout_user(self, **kwargs):
         with allure.step('logout_user'):
-            return self.facade.login_api.del_v1_account_login(**kwargs)
+            return self.facade.login_api.delete_v1_account_login(**kwargs)
 
     def logout_user_from_every_device(self, **kwargs):
         with allure.step('logout_user_everywhere'):
-            return self.facade.login_api.del_v1_account_all(**kwargs)
+            return self.facade.login_api.delete_v1_account_login_all(**kwargs)
