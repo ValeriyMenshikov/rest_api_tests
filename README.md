@@ -3,15 +3,14 @@
 
 ### Ответственные лица:
 
-* Валерий Меньшиков:
-  * telegram: [valeriy_menshikov](https://t.me/valeriy_menshikov)
+* Меньшиков Валерий:
+  * telegram: [Valeriy Menshikov](https://t.me/valeriy_menshikov)
 
   
 
 ### Тестируемый сервис:
 **dm_api_account**
-* Страница сервиса: [DM](https://github.com/quilin/dm)
-* Swagger: [swagger](http://localhost:5051/)
+* Swagger: [swagger](http://5.63.153.31:5051/)
 
 
 ### Установка и запуск
