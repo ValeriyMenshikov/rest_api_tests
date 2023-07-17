@@ -1,25 +1,24 @@
 from __future__ import annotations
 from datetime import datetime
 from enum import Enum
-from typing import Optional, List, Any
-
-from pydantic import BaseModel, Extra, StrictStr, Field
+from pydantic import BaseModel, StrictStr, Field, Extra
+from typing import List, Optional, Any
 
 
 class BbParseMode(Enum):
-    COMMON = 'Common'
-    INFO = 'Info'
-    POST = 'Post'
-    CHAT = 'Chat'
+    common = 'Common'
+    info = 'Info'
+    post = 'Post'
+    chat = 'Chat'
 
 
 class UserRole(Enum):
-    GUEST = 'Guest'
-    PLAYER = 'Player'
-    ADMINISTRATOR = 'Administrator'
-    NANNY_MODERATOR = 'NannyModerator'
-    REGULAR_MODERATOR = 'RegularModerator'
-    SENIOR_MODERATOR = 'SeniorModerator'
+    guest = 'Guest'
+    player = 'Player'
+    administrator = 'Administrator'
+    nanny_moderator = 'NannyModerator'
+    regular_moderator = 'RegularModerator'
+    senior_moderator = 'SeniorModerator'
 
 
 class Rating(BaseModel):
@@ -67,11 +66,11 @@ class PagingSettings(BaseModel):
 
 
 class ColorSchema(Enum):
-    MODERN = 'Modern'
-    PALE = 'Pale'
-    CLASSIC = 'Classic'
-    CLASSIC_PALE = 'ClassicPale'
-    NIGHT = 'Night'
+    modern = 'Modern'
+    pale = 'Pale'
+    classic = 'Classic'
+    classic_pale = 'ClassicPale'
+    night = 'Night'
 
 
 class UserSettings(BaseModel):

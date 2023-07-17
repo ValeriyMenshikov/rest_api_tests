@@ -1,21 +1,14 @@
-import structlog
-from services.dm_api_account import Facade
-from apis.dm_api_account.models.user_envelope_model import UserRole
-from hamcrest import assert_that, has_properties
+def test_put_v1_account_token(dm_api_facade, prepare_user, assertion):
+    login = prepare_user.login
+    password = prepare_user.password
+    email = prepare_user.email
 
-structlog.configure(
-    processors=[
-        structlog.processors.JSONRenderer(indent=4, sort_keys=True, ensure_ascii=False)
-    ]
-)
-
-
-def test_put_v1_account_token():
-    api = Facade(host='http://localhost:5051')
-    response = api.account_api.put_v1_account_token(token='493efb5f-0ebb-46cf-9d7e-9e31ea447be8', status_code=200)
-    assert_that(response.resource, has_properties(
-        {
-            "login": "login_19",
-            "roles": [UserRole.GUEST, UserRole.PLAYER]
-        }
-    ))
+    dm_api_facade.account.register_new_user(
+        login=login,
+        email=email,
+        password=password,
+        status_code=201
+    )
+    assertion.check_user_was_created_for_prepare(login=login)
+    dm_api_facade.account.activate_registered_user(login=login)
+    assertion.check_user_was_activated(login=login)

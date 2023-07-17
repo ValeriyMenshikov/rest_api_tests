@@ -1,6 +1,5 @@
 from __future__ import annotations
-
-from typing import Dict, List, Optional
+from typing import Optional, Dict, List
 from pydantic import BaseModel, Extra, Field, StrictStr
 
 

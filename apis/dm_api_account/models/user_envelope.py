@@ -1,18 +1,17 @@
 from __future__ import annotations
 from datetime import datetime
 from enum import Enum
-from typing import Optional, List, Any
-
-from pydantic import BaseModel, Extra, StrictStr, Field
+from pydantic import BaseModel, StrictStr, Field, Extra
+from typing import List, Optional, Any
 
 
 class UserRole(Enum):
-    GUEST = 'Guest'
-    PLAYER = 'Player'
-    ADMINISTRATOR = 'Administrator'
-    NANNY_MODERATOR = 'NannyModerator'
-    REGULAR_MODERATOR = 'RegularModerator'
-    SENIOR_MODERATOR = 'SeniorModerator'
+    guest = 'Guest'
+    player = 'Player'
+    administrator = 'Administrator'
+    nanny_moderator = 'NannyModerator'
+    regular_moderator = 'RegularModerator'
+    senior_moderator = 'SeniorModerator'
 
 
 class Rating(BaseModel):

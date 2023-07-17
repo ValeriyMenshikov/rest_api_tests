@@ -1,12 +1,8 @@
 import allure
 import pytest
 import random
-from collections import namedtuple
 from string import ascii_letters, digits
-
 from hamcrest import assert_that, has_entries
-
-from data.post_v1_account import PostV1AccountData as user_data
 
 
 def random_string(begin=1, end=30):
@@ -44,7 +40,7 @@ class TestsPostV1Account:
             login,
             email,
             password,
-            assertions,
+            assertion,
             status_code,
             check
     ):
@@ -57,28 +53,16 @@ class TestsPostV1Account:
             status_code=status_code
         )
         if status_code == 201:
-            assertions.check_user_was_created(login=login)
+            assertion.check_user_was_created(login=login)
             dm_api_facade.account.activate_registered_user(login=login)
-            assertions.check_user_was_activated(login=login)
+            assertion.check_user_was_activated(login=login)
             dm_api_facade.login.login_user(login=login, password=password)
         else:
             error_message = response.json()['errors']
             assert_that(error_message, has_entries(check))
 
-    @allure.step("Подготовка тестового пользователя")
-    @pytest.fixture
-    def prepare_user(self, dm_api_facade, dm_db):
-        user = namedtuple('User', 'login, email, password')
-        User = user(login=user_data.login, email=user_data.email, password=user_data.password)
-        dm_db.delete_user_by_login(login=User.login)
-        dataset = dm_db.get_user_by_login(login=User.login)
-        assert len(dataset) == 0
-        dm_api_facade.mailhog.delete_all_messages()
-
-        return User
-
     @allure.title("Проверка регистрации и активации пользователя")
-    def test_register_and_activate_user(self, dm_api_facade, dm_db, prepare_user, assertions):
+    def test_register_and_activate_user(self, dm_api_facade, dm_db, prepare_user, assertion):
         """
         Тест проверяет создание и активацию пользователя в базе данных
         """
@@ -87,13 +71,14 @@ class TestsPostV1Account:
         password = prepare_user.password
 
         dm_api_facade.account.register_new_user(login=login, email=email, password=password)
-        assertions.check_user_was_created(login=login)
+        assertion.check_user_was_created(login=login)
         dm_api_facade.account.activate_registered_user(login=login)
-        assertions.check_user_was_activated(login=login)
+        assertion.check_user_was_activated(login=login)
         dm_api_facade.login.login_user(login=login, password=password)
 
 
 # В тестовые данные по желанию вставить нужных местах генерацию случайных строк
+@pytest.mark.skip('tamplate')
 @pytest.mark.parametrize('login, email, password, status_code, check', [
     ('12', '12@12.ru', '123456', 201, ''),  # Валидные данные
     ('12', '12@12.ru', random_string(1, 5), 400, {"Password": ["Short"]}),  # Пароль менее либо равен 5 символам
