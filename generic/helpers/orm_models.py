@@ -1,4 +1,3 @@
-# coding: utf-8
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, SmallInteger, String, Text, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -424,13 +423,13 @@ class RoomClaim(Base):
     __tablename__ = 'RoomClaims'
 
     RoomClaimId = Column(UUID, primary_key=True)
-    ParticipantId = Column(ForeignKey('Characters.CharacterId', ondelete='CASCADE'),
-                           ForeignKey('Readers.ReaderId', ondelete='CASCADE'), nullable=False, index=True)
+    ParticipantId = Column(ForeignKey('Readers.ReaderId', ondelete='CASCADE'),
+                           ForeignKey('Characters.CharacterId', ondelete='CASCADE'), nullable=False, index=True)
     RoomId = Column(ForeignKey('Rooms.RoomId', ondelete='CASCADE'), nullable=False, index=True)
     Policy = Column(Integer, nullable=False)
 
-    Reader = relationship('Reader')
     Character = relationship('Character')
+    Reader = relationship('Reader')
     Room = relationship('Room')
 
 
