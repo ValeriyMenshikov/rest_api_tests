@@ -1,5 +1,5 @@
 from collections import namedtuple
-import grpc
+# import grpc
 import pytest
 import structlog
 from vyper import v
@@ -11,7 +11,7 @@ from generic.helpers.orm_db import OrmDatabase
 from generic.helpers.search import Search
 from services.dm_api_account import Facade
 # from apis.dm_api_search_async import SearchEngineStub
-from grpclib.client import Channel
+# from grpclib.client import Channel
 from data.post_v1_account import PostV1AccountData as user_data
 
 structlog.configure(
@@ -66,9 +66,10 @@ def mailhog():
 
 @pytest.fixture
 def dm_api_facade(mailhog):
-    return Facade(host=v.get('service.dm_api_account'),
-                  mailhog=mailhog
-                  )
+    return Facade(
+        host=v.get('service.dm_api_account'),
+        mailhog=mailhog
+    )
 
 
 @pytest.fixture
@@ -85,23 +86,6 @@ def orm_db(request):
 
     request.addfinalizer(fin)
     return orm
-
-
-# connections = None
-
-
-# @pytest.fixture(scope='session')
-# def orm_db():
-#     global connections
-#     if connections is None:
-#         connections = OrmDatabase(
-#             user=v.get('database.dm3_5.user'),
-#             password=v.get('database.dm3_5.password'),
-#             database=v.get('database.dm3_5.database'),
-#             host=v.get('database.dm3_5.host')
-#         )
-#     yield connections
-#     connections.orm.close_connection()
 
 
 @pytest.fixture
