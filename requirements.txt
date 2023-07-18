@@ -3,7 +3,7 @@ curlify
 psycopg2
 pydantic==1.10.7
 PyHamcrest
-pytest
+pytest==7.3.1
 records==0.5.3
 requests
 sqlacodegen
