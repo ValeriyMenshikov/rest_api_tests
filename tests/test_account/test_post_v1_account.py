@@ -75,39 +75,3 @@ class TestsPostV1Account:
         dm_api_facade.account.activate_registered_user(login=login)
         assertion.check_user_was_activated(login=login)
         dm_api_facade.login.login_user(login=login, password=password)
-
-
-# В тестовые данные по желанию вставить нужных местах генерацию случайных строк
-@pytest.mark.skip('tamplate')
-@pytest.mark.parametrize('login, email, password, status_code, check', [
-    ('12', '12@12.ru', '123456', 201, ''),  # Валидные данные
-    ('12', '12@12.ru', random_string(1, 5), 400, {"Password": ["Short"]}),  # Пароль менее либо равен 5 символам
-    ('1', '12@12.ru', '123456', 400, {"Login": ["Short"]}),  # Логин менее 2 символов
-    ('12', '12@', '123456', 400, {"Email": ["Invalid"]}),  # Емейл не содержит доменную часть
-    ('12', '12', '123456', 400, {"Email": ["Invalid"]}),  # Емейл не содержит символ @
-])
-def test_create_and_activated_user_with_random_params(
-        dm_api_facade,
-        dm_db,
-        login,
-        email,
-        password,
-        assertions,
-        status_code,
-        check
-):
-    dm_db.delete_user_by_login(login=login)
-    dm_api_facade.mailhog.delete_all_messages()
-    response = dm_api_facade.account.register_new_user(
-        login=login,
-        email=email,
-        password=password,
-        status_code=status_code
-    )
-    if status_code == 201:
-        # Активация пользователя
-        # Блок проверки в базе данных и логин пользователя
-        ...
-    else:
-        # Реализовать блок проверки соответствия сообщения возвращаемого в response сообщению "check"
-        ...
