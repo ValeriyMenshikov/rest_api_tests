@@ -10,7 +10,7 @@
 
 ### Тестируемый сервис:
 **dm_api_account**
-* Swagger: [swagger](http://5.63.153.31:5051/)
+* Swagger: [swagger](http://5.63.153.31:5051/index.html?urls.primaryName=Account)
 
 
 ### Установка и запуск
