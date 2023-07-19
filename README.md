@@ -20,6 +20,12 @@
  pip install -r requirements.txt
 ```
 
+### Docker
+```shell
+docker build -t dm_api_tests . 
+docker run -it dm_api_tests
+```
+
 ### Различия в ветках фреймворка
 В ветке main - фреймворк, который включает в себя все вспомогательные библиотеки.  
 В ветке client - фреймворк, из которого вынесены вспомогательные библиотеки.  

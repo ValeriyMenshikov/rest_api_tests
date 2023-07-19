@@ -3,6 +3,7 @@ import pytest
 from apis.dm_api_search_async import SearchRequest, SearchEntityType
 
 
+@pytest.mark.skip('elasticsearch dont work')
 def test_search(grpc_search):
     response = grpc_search.search(
         query="testplease",
@@ -12,6 +13,7 @@ def test_search(grpc_search):
     )
 
 
+@pytest.mark.skip('elasticsearch dont work')
 @pytest.mark.asyncio
 async def test_search_async(grpc_search_async):
     response = await grpc_search_async.search(
