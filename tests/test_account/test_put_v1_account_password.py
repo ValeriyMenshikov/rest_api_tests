@@ -1,5 +1,7 @@
 import time
 
+from generic.helpers.mailhog import TokenType
+
 
 def test_put_v1_account_password(dm_api_facade, prepare_user, mailhog):
     login = prepare_user.login
@@ -17,8 +19,7 @@ def test_put_v1_account_password(dm_api_facade, prepare_user, mailhog):
     token = dm_api_facade.login.get_auth_token(login=login, password=password)
     dm_api_facade.account.set_headers(headers=token)
     dm_api_facade.account.reset_user_password(login=login, email=email)
-    time.sleep(2)
-    token = mailhog.get_token_from_last_email()
+    token = mailhog.get_token_by_login(login=login, token_type=TokenType.RESET_PASSWORD)
     dm_api_facade.account.change_user_password(
         login=login,
         token=token,

@@ -14,7 +14,6 @@ def test_get_v1_account(dm_api_facade, prepare_user, orm_db, assertion):
     dm_api_facade.account.activate_registered_user(login=login)
     assertion.check_user_was_activated(login=login)
     token = dm_api_facade.login.get_auth_token(login=login, password=password)
-    dm_api_facade.account.set_headers(headers=token)
-    dm_api_facade.login.set_headers(headers=token)
+    dm_api_facade.set_headers(headers=token)
     dm_api_facade.account.get_current_user()
     dm_api_facade.login.logout_user()

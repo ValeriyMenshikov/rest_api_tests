@@ -11,3 +11,7 @@ class Facade:
         self.mailhog = mailhog
         self.account = Account(self)
         self.login = Login(self)
+
+    def set_headers(self, headers):
+        self.login.set_headers(headers)
+        self.account.set_headers(headers)
