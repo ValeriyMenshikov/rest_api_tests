@@ -23,7 +23,7 @@
 ### Docker
 ```shell
 docker build -t dm_api_tests . 
-docker run -it dm_api_tests
+docker run -it --rm dm_api_tests
 ```
 
 ### Различия в ветках фреймворка
