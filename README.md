@@ -1,4 +1,4 @@
-# Проект для тестирования REST и gRPC API сервиса "dm_api_account"
+# Проект для тестирования REST и gRPC API сервиса DM API Account
 
 
 ### Ответственные лица:
