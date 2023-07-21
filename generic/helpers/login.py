@@ -13,7 +13,12 @@ class Login:
         """Set the headers in class helper - Login"""
         self.facade.login_api.client.session.headers.update(headers)
 
-    def login_user(self, login: str, password: str, remember_me: bool = True) -> Response:
+    def login_user(
+            self,
+            login: str,
+            password: str,
+            remember_me: bool = True
+    ) -> Response:
         with allure.step('login_user'):
             response = self.facade.login_api.post_v1_account_login(
                 json=LoginCredentials(

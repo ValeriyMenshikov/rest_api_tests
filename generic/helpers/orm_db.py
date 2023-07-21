@@ -35,7 +35,7 @@ class OrmDatabase:
             query = update(User).values({User.Activated: True}).where(User.Login == login)
         return self.orm.send_bulk_query(query=query)
 
-    def get_user_email(self) -> None:
+    def get_user_email(self) -> List[User]:
         with allure.step('Выбор пользователя по email'):
             query = select([User.Email])
         return self.orm.send_query(query=query)

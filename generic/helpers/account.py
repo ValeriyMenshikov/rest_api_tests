@@ -20,7 +20,13 @@ class Account:
         """Set the headers in class helper - Account"""
         self.facade.account_api.client.session.headers.update(headers)
 
-    def register_new_user(self, login: str, email: str, password: str, status_code: int = 201) -> Response:
+    def register_new_user(
+            self,
+            login: str,
+            email: str,
+            password: str,
+            status_code: int = 201
+    ) -> Response:
         with allure.step('registration new user'):
             response = self.facade.account_api.post_v1_account(
                 status_code=status_code,
@@ -32,7 +38,11 @@ class Account:
             )
         return response
 
-    def activate_registered_user(self, login: str, token_type=TokenType.ACTIVATE) -> UserEnvelope:
+    def activate_registered_user(
+            self,
+            login: str,
+            token_type: TokenType = TokenType.ACTIVATE
+    ) -> UserEnvelope:
         with allure.step('activate_registered_user'):
             token = self.facade.mailhog.get_token_by_login(login=login, token_type=token_type)
             response = self.facade.account_api.put_v1_account_token(
@@ -44,7 +54,11 @@ class Account:
         with allure.step('get_current_user'):
             return self.facade.account_api.get_v1_account(**kwargs)
 
-    def reset_user_password(self, login: str, email: str) -> UserEnvelope | Response:
+    def reset_user_password(
+            self,
+            login: str,
+            email: str
+    ) -> UserEnvelope | Response:
         with allure.step('reset_user_password'):
             response = self.facade.account_api.post_v1_account_password(
                 json=ResetPassword(
@@ -54,7 +68,12 @@ class Account:
             )
         return response
 
-    def change_user_email(self, login: str, password: str, email: str) -> UserEnvelope | Response:
+    def change_user_email(
+            self,
+            login: str,
+            password: str,
+            email: str
+    ) -> UserEnvelope | Response:
         with allure.step('change_user_email'):
             response = self.facade.account_api.put_v1_account_email(
                 json=ChangeEmail(
@@ -65,7 +84,13 @@ class Account:
             )
         return response
 
-    def change_user_password(self, login: str, password: str, new_password: str, token: str) -> UserEnvelope | Response:
+    def change_user_password(
+            self,
+            login: str,
+            password: str,
+            new_password: str,
+            token: str
+    ) -> UserEnvelope | Response:
         with allure.step('change_user_email'):
             response = self.facade.account_api.put_v1_account_password(
                 json=ChangePassword(
