@@ -17,7 +17,7 @@ class AccountApi:
             json: Registration,
             status_code: int = 201,
             **kwargs
-    ) -> UserEnvelope | Response:
+    ) -> Response:
         """
         :param status_code:
         :param json: registration_model
@@ -79,7 +79,7 @@ class AccountApi:
             json: ResetPassword,
             status_code: int = 200,
             **kwargs
-    ) -> UserEnvelope | BadRequestError | Response:
+    ) -> UserEnvelope | Response:
         """
         :param status_code:
         :param json: reset_password

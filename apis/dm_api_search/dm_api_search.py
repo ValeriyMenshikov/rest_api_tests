@@ -4,7 +4,7 @@ import uuid
 
 from google.protobuf.json_format import MessageToDict
 
-from apis.dm_api_search.search_pb2 import SearchRequest
+from apis.dm_api_search.search_pb2 import SearchRequest, SearchResponse
 from apis.dm_api_search.search_pb2_grpc import SearchEngineStub
 
 
@@ -40,7 +40,7 @@ class DmApiSearch:
         self.log = structlog.get_logger(self.__class__.__name__).bind(service='grpc')
 
     @grpc_loging
-    def search(self, request: SearchRequest):
+    def search(self, request: SearchRequest) -> SearchResponse:
         response = self.client.Search(request=request)
         return response
 

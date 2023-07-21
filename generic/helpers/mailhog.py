@@ -73,6 +73,6 @@ class MailhogApi:
         time.sleep(2)
         return self.get_token_by_login(login=login, token_type=token_type, attempt=attempt - 1)
 
-    def delete_all_messages(self):
+    def delete_all_messages(self) -> Response:
         response = self.client.delete(path="/api/v1/messages")
         return response
