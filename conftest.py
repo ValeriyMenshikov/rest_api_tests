@@ -20,27 +20,31 @@ structlog.configure(
     ]
 )
 
-
-@pytest.fixture
-def grpc_search():
-    client = Search(target=v.get('service.dm_api_search'))
-    yield client
-    client.grpc_search.close()
-
-
-@pytest.fixture
-def grpc_search_async():
-    channel = Channel(host='localhost', port=5052)
-    client = SearchEngineStub(channel)
-    yield client
-    channel.close()
-
+disable_log = v.get('disable_log')
 
 options = (
     'service.dm_api_account',
     'service.mailhog',
     'database.dm3_5.host'
+    'disable_log'
 )
+
+
+@pytest.fixture(autouse=True)
+def set_config(request):
+    config = Path(__file__).parent.joinpath('config')
+    config_name = request.config.getoption('--env')
+    v.set_config_name(config_name)
+    v.add_config_path(config)
+    v.read_in_config()
+    for option in options:
+        v.set(option, request.config.getoption(f'--{option}'))
+
+
+def pytest_addoption(parser):
+    parser.addoption('--env', action='store', default='stg')
+    for option in options:
+        parser.addoption(f'--{option}', action='store', default=None)
 
 
 @pytest.fixture
@@ -61,14 +65,19 @@ def prepare_user(dm_api_facade, orm_db):
 
 @pytest.fixture
 def mailhog():
-    return MailhogApi(host=v.get('service.mailhog'))
+    return MailhogApi(
+        host=v.get('service.mailhog'),
+        disable_log=v.get('disable_log')
+    )
 
 
 @pytest.fixture
 def dm_api_facade(mailhog):
-    return Facade(host=v.get('service.dm_api_account'),
-                  mailhog=mailhog
-                  )
+    return Facade(
+        host=v.get('service.dm_api_account'),
+        mailhog=mailhog,
+        disable_log=v.get('disable_log')
+    )
 
 
 @pytest.fixture
@@ -77,7 +86,8 @@ def orm_db(request):
         user=v.get('database.dm3_5.user'),
         password=v.get('database.dm3_5.password'),
         database=v.get('database.dm3_5.database'),
-        host=v.get('database.dm3_5.host')
+        host=v.get('database.dm3_5.host'),
+        disable_log=v.get('disable_log')
     )
 
     def fin():
@@ -87,30 +97,14 @@ def orm_db(request):
     return orm
 
 
-# connections = None
-
-
-# @pytest.fixture(scope='session')
-# def orm_db():
-#     global connections
-#     if connections is None:
-#         connections = OrmDatabase(
-#             user=v.get('database.dm3_5.user'),
-#             password=v.get('database.dm3_5.password'),
-#             database=v.get('database.dm3_5.database'),
-#             host=v.get('database.dm3_5.host')
-#         )
-#     yield connections
-#     connections.orm.close_connection()
-
-
 @pytest.fixture
 def dm_db(request):
     connect = DmDatabase(
         user=v.get('database.dm3_5.user'),
         password=v.get('database.dm3_5.password'),
         database=v.get('database.dm3_5.database'),
-        host=v.get('database.dm3_5.host')
+        host=v.get('database.dm3_5.host'),
+        disable_log=v.get('disable_log')
     )
 
     def fin():
@@ -122,22 +116,20 @@ def dm_db(request):
 
 
 @pytest.fixture
+def grpc_search():
+    client = Search(target=v.get('service.dm_api_search'))
+    yield client
+    client.grpc_search.close()
+
+
+@pytest.fixture
+def grpc_search_async():
+    channel = Channel(host='localhost', port=5052)
+    client = SearchEngineStub(channel)
+    yield client
+    channel.close()
+
+
+@pytest.fixture
 def assertion(orm_db):
     return AssertionsPostV1Account(orm_db)
-
-
-@pytest.fixture(autouse=True)
-def set_config(request):
-    config = Path(__file__).parent.joinpath('config')
-    config_name = request.config.getoption('--env')
-    v.set_config_name(config_name)
-    v.add_config_path(config)
-    v.read_in_config()
-    for option in options:
-        v.set(option, request.config.getoption(f'--{option}'))
-
-
-def pytest_addoption(parser):
-    parser.addoption('--env', action='store', default='stg')
-    for option in options:
-        parser.addoption(f'--{option}', action='store', default=None)

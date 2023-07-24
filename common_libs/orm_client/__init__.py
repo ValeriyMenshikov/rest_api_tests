@@ -6,8 +6,9 @@ from common_libs.orm_client.utilities import allure_attach
 
 
 class OrmClient:
-    def __init__(self, user, password, host, database, isolation_level='AUTOCOMMIT'):
+    def __init__(self, user, password, host, database, isolation_level='AUTOCOMMIT', disable_log=False):
         connection_string = f"postgresql://{user}:{password}@{host}/{database}"
+        self.disable_log = disable_log
         self.engine = create_engine(connection_string, isolation_level=isolation_level)
         self.db = self.engine.connect()
         self.log = structlog.getLogger(self.__class__.__name__).bind(service='DB')
@@ -22,6 +23,8 @@ class OrmClient:
 
     @allure_attach
     def send_query(self, query):
+        if self.disable_log:
+            return [row for row in self.db.execute(statement=query)]
         query = self._compiled_query(query)
         print(query)
         log = self.log.bind(evet_id=str(uuid.uuid4()))
@@ -39,6 +42,9 @@ class OrmClient:
 
     @allure_attach
     def send_bulk_query(self, query):
+        if self.disable_log:
+            return self.db.execute(statement=query)
+
         query = self._compiled_query(query)
         log = self.log.bind(evet_id=str(uuid.uuid4()))
         log.msg(

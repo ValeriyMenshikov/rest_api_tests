@@ -6,9 +6,9 @@ from ..utilities import validate_request_json, validate_status_code
 
 
 class LoginApi:
-    def __init__(self, host, headers=None):
+    def __init__(self, host, headers=None, disable_log=False):
         self.host = host
-        self.client = Restclient(host=host, headers=headers)
+        self.client = Restclient(host=host, headers=headers, disable_log=disable_log)
         if headers:
             self.client.session.headers.update(headers)
 

@@ -5,10 +5,11 @@ from apis.dm_api_account.apis.login_api import LoginApi
 
 
 class Facade:
-    def __init__(self, host, mailhog=None, headers=None):
-        self.login_api = LoginApi(host, headers)
-        self.account_api = AccountApi(host, headers)
+    def __init__(self, host, mailhog=None, headers=None, disable_log=False):
+        self.login_api = LoginApi(host, headers, disable_log=disable_log)
+        self.account_api = AccountApi(host, headers, disable_log=disable_log)
         self.mailhog = mailhog
+        self.mailhog.client.disable_log = disable_log
         self.account = Account(self)
         self.login = Login(self)
 

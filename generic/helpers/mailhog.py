@@ -19,9 +19,10 @@ class TokenType(Enum):
 
 
 class MailhogApi:
-    def __init__(self, host: str = "http://localhost:5025") -> None:
+    def __init__(self, host: str = "http://localhost:5025", disable_log=False) -> None:
         self.host = host
-        self.client = Restclient(host=host)
+        self.disable_log = disable_log
+        self.client = Restclient(host=host, disable_log=self.disable_log)
 
     # @decorator
     def get_api_v2_messages(self, limit: int = 50) -> Response:

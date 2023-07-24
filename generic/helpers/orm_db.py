@@ -7,8 +7,8 @@ from common_libs.orm_client import OrmClient
 
 
 class OrmDatabase:
-    def __init__(self, user: str, password: str, host: str, database: str) -> None:
-        self.orm = OrmClient(user, password, host, database)
+    def __init__(self, user: str, password: str, host: str, database: str, disable_log: bool = False) -> None:
+        self.orm = OrmClient(user, password, host, database, disable_log=disable_log)
 
     def get_user_by_login(self, login) -> List[User]:
         with allure.step('Выбираем запись в БД по логину'):

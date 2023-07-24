@@ -6,8 +6,8 @@ from common_libs.db_client import DbClient
 
 
 class DmDatabase:
-    def __init__(self, user: str, password: str, host: str, database: str) -> None:
-        self.db = DbClient(user, password, host, database)
+    def __init__(self, user: str, password: str, host: str, database: str, disable_log: bool = False) -> None:
+        self.db = DbClient(user, password, host, database, disable_log=disable_log)
 
     def get_all_users(self) -> List[dict]:
         query = '''

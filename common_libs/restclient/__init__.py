@@ -10,7 +10,9 @@ from common_libs.restclient.utilities import allure_attach
 
 class Restclient:
     attach = None
-    def __init__(self, host, headers=None):
+
+    def __init__(self, host, headers=None, disable_log=False):
+        self.disable_log = disable_log
         self.host = host
         self.session = session()
         if headers:
@@ -36,6 +38,10 @@ class Restclient:
     def _send_requests(self, method, path, **kwargs):
         full_url = self.host + path
         log = self.log.bind(evet_id=str(uuid.uuid4()))
+
+        if self.disable_log:
+            return self.session.request(method=method, url=full_url, **kwargs)
+
         log.msg(
             event='request',
             method=method,
