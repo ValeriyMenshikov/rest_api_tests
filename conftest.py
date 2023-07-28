@@ -5,6 +5,7 @@ from vyper import v
 from pathlib import Path
 from generic.assertions.post_v1_account import AssertionsPostV1Account
 from modules.db.dm3_5.dm_db import DmDatabase
+from modules.http.dm_api_account.apis import AccountApi, LoginApi
 from modules.http.mailhog.mailhog import MailhogApi
 from modules.db.dm3_5.orm_db import OrmDatabase
 from generic.helpers.search import Search
@@ -18,8 +19,6 @@ structlog.configure(
         structlog.processors.JSONRenderer(indent=4, sort_keys=True, ensure_ascii=False)
     ]
 )
-
-disable_log = v.get('disable_log')
 
 options = (
     'service.dm_api_account',
@@ -71,11 +70,27 @@ def mailhog():
 
 
 @pytest.fixture
-def logic(mailhog):
-    return LogicProvider(
+def account_api():
+    return AccountApi(
         host=v.get('service.dm_api_account'),
-        mailhog=mailhog,
         disable_log=v.get('disable_log')
+    )
+
+
+@pytest.fixture
+def login_api():
+    return LoginApi(
+        host=v.get('service.dm_api_account'),
+        disable_log=v.get('disable_log')
+    )
+
+
+@pytest.fixture
+def logic(mailhog, account_api, login_api):
+    return LogicProvider(
+        account_api=account_api,
+        login_api=login_api,
+        mailhog_api=mailhog,
     )
 
 
