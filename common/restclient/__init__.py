@@ -5,7 +5,7 @@ import curlify
 import requests.exceptions
 import structlog
 from requests import session, Response
-from common_libs.restclient.utilities import allure_attach
+from common.restclient.utilities import allure_attach
 
 
 class Restclient:

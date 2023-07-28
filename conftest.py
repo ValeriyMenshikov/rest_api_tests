@@ -1,16 +1,15 @@
 from collections import namedtuple
-import grpc
 import pytest
 import structlog
 from vyper import v
 from pathlib import Path
 from generic.assertions.post_v1_account import AssertionsPostV1Account
-from generic.helpers.dm_db import DmDatabase
-from generic.helpers.mailhog import MailhogApi
-from generic.helpers.orm_db import OrmDatabase
+from modules.db.dm3_5.dm_db import DmDatabase
+from modules.http.mailhog.mailhog import MailhogApi
+from modules.db.dm3_5.orm_db import OrmDatabase
 from generic.helpers.search import Search
-from services.dm_api_account import Facade
-from apis.dm_api_search_async import SearchEngineStub
+from generic.helpers import LogicProvider
+from modules.grpc.dm_api_search_async import SearchEngineStub
 from grpclib.client import Channel
 from data.post_v1_account import PostV1AccountData as user_data
 
@@ -48,7 +47,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture
-def prepare_user(dm_api_facade, orm_db):
+def prepare_user(logic, orm_db):
     user_tuple = namedtuple('User', 'login, email, password, new_password')
     user = user_tuple(
         login=user_data.login,
@@ -59,7 +58,7 @@ def prepare_user(dm_api_facade, orm_db):
     orm_db.delete_user_by_login(login=user.login)
     dataset = orm_db.get_user_by_login(login=user.login)
     assert len(dataset) == 0
-    dm_api_facade.mailhog.delete_all_messages()
+    logic.mailhog.delete_all_messages()
     return user
 
 
@@ -72,8 +71,8 @@ def mailhog():
 
 
 @pytest.fixture
-def dm_api_facade(mailhog):
-    return Facade(
+def logic(mailhog):
+    return LogicProvider(
         host=v.get('service.dm_api_account'),
         mailhog=mailhog,
         disable_log=v.get('disable_log')

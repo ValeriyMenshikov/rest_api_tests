@@ -35,7 +35,7 @@ class TestsPostV1Account:
     @pytest.mark.parametrize('login, email, password, status_code, check', random_data)
     def test_create_and_activated_user_with_random_params(
             self,
-            dm_api_facade,
+            logic,
             dm_db,
             login,
             email,
@@ -45,8 +45,8 @@ class TestsPostV1Account:
             check
     ):
         dm_db.delete_user_by_login(login=login)
-        dm_api_facade.mailhog.delete_all_messages()
-        response = dm_api_facade.account.register_new_user(
+        logic.mailhog.delete_all_messages()
+        response = logic.account.register_new_user(
             login=login,
             email=email,
             password=password,
@@ -54,15 +54,15 @@ class TestsPostV1Account:
         )
         if status_code == 201:
             assertion.check_user_was_created(login=login)
-            dm_api_facade.account.activate_registered_user(login=login)
+            logic.account.activate_registered_user(login=login)
             assertion.check_user_was_activated(login=login)
-            dm_api_facade.login.login_user(login=login, password=password)
+            logic.login.login_user(login=login, password=password)
         else:
             error_message = response.json()['errors']
             assert_that(error_message, has_entries(check))
 
     @allure.title("Проверка регистрации и активации пользователя")
-    def test_register_and_activate_user(self, dm_api_facade, dm_db, prepare_user, assertion):
+    def test_register_and_activate_user(self, logic, dm_db, prepare_user, assertion):
         """
         Тест проверяет создание и активацию пользователя в базе данных
         """
@@ -70,8 +70,8 @@ class TestsPostV1Account:
         email = prepare_user.email
         password = prepare_user.password
 
-        dm_api_facade.account.register_new_user(login=login, email=email, password=password)
+        logic.account.register_new_user(login=login, email=email, password=password)
         assertion.check_user_was_created(login=login)
-        dm_api_facade.account.activate_registered_user(login=login)
+        logic.account.activate_registered_user(login=login)
         assertion.check_user_was_activated(login=login)
-        dm_api_facade.login.login_user(login=login, password=password)
+        logic.login.login_user(login=login, password=password)

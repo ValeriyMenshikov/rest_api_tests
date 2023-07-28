@@ -1,6 +1,6 @@
 import pytest
 
-from apis.dm_api_search_async import SearchRequest, SearchEntityType
+from modules.grpc.dm_api_search_async import SearchRequest, SearchEntityType
 
 
 @pytest.mark.skip('elasticsearch dont work')

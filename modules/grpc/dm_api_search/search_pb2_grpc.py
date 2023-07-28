@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from apis.dm_api_search import search_pb2 as apis_dot_dm__api__search_dot_search__pb2
+from modules.grpc.dm_api_search import search_pb2 as apis_dot_dm__api__search_dot_search__pb2
 
 
 class SearchEngineStub(object):

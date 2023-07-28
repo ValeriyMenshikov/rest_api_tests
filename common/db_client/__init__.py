@@ -1,7 +1,7 @@
 import uuid
 import records
 import structlog
-from common_libs.db_client.utilities import allure_attach
+from common.db_client.utilities import allure_attach
 
 
 class DbClient:

@@ -1,6 +1,6 @@
 import allure
 from hamcrest import assert_that, has_entries, has_properties
-from generic.helpers.dm_db import DmDatabase
+from modules.db.dm3_5.dm_db import DmDatabase
 
 
 class AssertionsPostV1Account:

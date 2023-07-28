@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from time import sleep
 from requests import Response
-from common_libs.restclient import Restclient
+from common.restclient import Restclient
 
 
 @dataclass

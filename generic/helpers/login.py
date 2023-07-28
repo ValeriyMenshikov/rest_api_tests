@@ -1,13 +1,13 @@
 import allure
 from requests import Response
 
-from apis.dm_api_account.models import LoginCredentials
+from modules.http.dm_api_account.models import LoginCredentials
 
 
 class Login:
     def __init__(self, facade):
-        from services.dm_api_account import Facade
-        self.facade: Facade = facade
+        from generic.helpers import LogicProvider
+        self.facade: LogicProvider = facade
 
     def set_headers(self, headers) -> None:
         """Set the headers in class helper - Login"""

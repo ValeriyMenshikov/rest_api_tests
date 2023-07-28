@@ -4,8 +4,8 @@ import uuid
 
 from google.protobuf.json_format import MessageToDict
 
-from apis.dm_api_search.search_pb2 import SearchRequest, SearchResponse
-from apis.dm_api_search.search_pb2_grpc import SearchEngineStub
+from modules.grpc.dm_api_search.search_pb2 import SearchRequest, SearchResponse
+from modules.grpc.dm_api_search.search_pb2_grpc import SearchEngineStub
 
 
 def grpc_loging(func):

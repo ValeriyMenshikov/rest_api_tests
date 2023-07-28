@@ -1,6 +1,6 @@
 import allure
 from requests import Response
-from apis.dm_api_account.models import (
+from modules.http.dm_api_account.models import (
     Registration,
     ResetPassword,
     ChangeEmail,
@@ -8,13 +8,13 @@ from apis.dm_api_account.models import (
     UserEnvelope,
     UserDetailsEnvelope
 )
-from generic.helpers.mailhog import TokenType
+from modules.http.mailhog.mailhog import TokenType
 
 
 class Account:
     def __init__(self, facade):
-        from services.dm_api_account import Facade
-        self.facade: Facade = facade
+        from generic.helpers import LogicProvider
+        self.facade: LogicProvider = facade
 
     def set_headers(self, headers):
         """Set the headers in class helper - Account"""

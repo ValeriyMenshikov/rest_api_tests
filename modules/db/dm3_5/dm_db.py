@@ -2,7 +2,7 @@ from typing import List
 
 import allure
 
-from common_libs.db_client import DbClient
+from common.db_client import DbClient
 
 
 class DmDatabase:

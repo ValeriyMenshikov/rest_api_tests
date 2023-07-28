@@ -1,5 +1,5 @@
-from apis.dm_api_search.dm_api_search import DmApiSearch
-from apis.dm_api_search.search_pb2 import SearchRequest, SearchResponse
+from modules.grpc.dm_api_search.dm_api_search import DmApiSearch
+from modules.grpc.dm_api_search.search_pb2 import SearchRequest, SearchResponse
 
 
 class Search:
