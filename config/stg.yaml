@@ -11,5 +11,5 @@ database:
     user: postgres
     password: admin
 
-disable_log: true
+disable_log: false
 

@@ -3,7 +3,6 @@ def test_get_v1_account(dm_api_facade, prepare_user, orm_db, assertion):
     password = prepare_user.password
     email = prepare_user.email
 
-    orm_db.delete_user_by_login(login=login)
     dm_api_facade.account.register_new_user(
         login=login,
         email=email,

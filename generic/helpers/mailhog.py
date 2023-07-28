@@ -13,9 +13,13 @@ class EmailBodyInfo:
     link_type: str
 
 
+# class TokenType(Enum):
+#     RESET_PASSWORD = auto()
+#     ACTIVATE = auto()
+
 class TokenType(Enum):
-    RESET_PASSWORD = auto()
-    ACTIVATE = auto()
+    RESET_PASSWORD = "reset"
+    ACTIVATE = "activate"
 
 
 class MailhogApi:
@@ -59,18 +63,45 @@ class MailhogApi:
             case token_type.ACTIVATE:
                 return EmailBodyInfo(token_name="activate", link_type="ConfirmationLinkUrl")
 
-    def get_token_by_login(self, login: str, token_type: TokenType, attempt: int = 5) -> str:
-        token_info = self._get_token_info_by_type(token_type)
+    # def get_token_by_login(self, login: str, token_type: TokenType, attempt: int = 5) -> str:
+    #     token_info = self._get_token_info_by_type(token_type)
+    #     if attempt == 0:
+    #         raise AssertionError(f"Не удалось получить письмо с логином {login}")
+    #     emails = self.get_api_v2_messages(limit=100).json()["items"]
+    #     for email in emails:
+    #         user_data = json.loads(email["Content"]["Body"])
+    #         if token_info.link_type in user_data:
+    #             confirmation_link_url = user_data[token_info.link_type]
+    #             if login == user_data.get("Login") and token_info.token_name in confirmation_link_url:
+    #                 token = confirmation_link_url.split("/")[-1]
+    #                 return token
+    #     time.sleep(2)
+    #     return self.get_token_by_login(login=login, token_type=token_type, attempt=attempt - 1)
+
+    def get_token_by_login(self, login: str, token_type: TokenType = TokenType.ACTIVATE, attempt: int = 5) -> str:
+        """
+        Метод получения токена
+        :param login:
+        :param token_type: activate or reset
+        :param attempt:
+        :return:
+        """
+        if token_type.value == 'activate':
+            link_type = "ConfirmationLinkUrl"
+        elif token_type.value == 'reset':
+            link_type = "ConfirmationLinkUri"
+        else:
+            raise AssertionError(f'token_type should be activate or reset, but token_type == {token_type}')
+
         if attempt == 0:
             raise AssertionError(f"Не удалось получить письмо с логином {login}")
         emails = self.get_api_v2_messages(limit=100).json()["items"]
         for email in emails:
             user_data = json.loads(email["Content"]["Body"])
-            if token_info.link_type in user_data:
-                confirmation_link_url = user_data[token_info.link_type]
-                if login == user_data.get("Login") and token_info.token_name in confirmation_link_url:
-                    token = confirmation_link_url.split("/")[-1]
-                    return token
+            if user_data.get('Login') == login and user_data.get(link_type):
+                token_link_url = user_data[link_type]
+                token = token_link_url.split("/")[-1]
+                return token
         time.sleep(2)
         return self.get_token_by_login(login=login, token_type=token_type, attempt=attempt - 1)
 
