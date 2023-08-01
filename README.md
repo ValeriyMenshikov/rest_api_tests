@@ -15,15 +15,15 @@
 
 ### Установка и запуск
 ```shell
- git clone https://github.com/ValeriyMenshikov/dm_api_tests
- cd dm_api_tests
+ git clone https://github.com/ValeriyMenshikov/rest_api_tests
+ cd rest_api_tests
  pip install -r requirements.txt
 ```
 
 ### Docker
 ```shell
-docker build -t dm_api_tests . 
-docker run -it --rm dm_api_tests
+docker build -t rest_api_tests . 
+docker run -it --rm rest_api_tests
 ```
 
 ### Различия в ветках фреймворка
