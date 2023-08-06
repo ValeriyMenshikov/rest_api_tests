@@ -1,17 +1,18 @@
+import time
 from collections import namedtuple
 import pytest
 import structlog
 from vyper import v
 from pathlib import Path
-from generic.assertions.post_v1_account import AssertionsPostV1Account
-from modules.db.dm3_5.dm_db import DmDatabase
-from modules.http.dm_api_account.apis import AccountApi, LoginApi
-from modules.http.mailhog.mailhog import MailhogApi
-from modules.db.dm3_5.orm_db import OrmDatabase
-from generic.helpers.search import Search
-from generic.helpers import LogicProvider
-from modules.grpc.dm_api_search_async import SearchEngineStub
-from grpclib.client import Channel
+# from generic.assertions.post_v1_account import AssertionsPostV1Account
+# from modules.db.dm3_5.dm_db import DmDatabase
+# from modules.http.dm_api_account.apis import AccountApi, LoginApi
+# from modules.http.mailhog.mailhog import MailhogApi
+# from modules.db.dm3_5.orm_db import OrmDatabase
+# from generic.helpers.search import Search
+from generic import LogicProvider
+# from modules.grpc.dm_api_search_async import SearchEngineStub
+# from grpclib.client import Channel
 from data.post_v1_account import PostV1AccountData as user_data
 
 structlog.configure(
@@ -40,13 +41,13 @@ def set_config(request):
 
 
 def pytest_addoption(parser):
-    parser.addoption('--env', action='store', default='stg')
+    parser.addoption('--env', action='store', default='prod')
     for option in options:
         parser.addoption(f'--{option}', action='store', default=None)
 
 
 @pytest.fixture
-def prepare_user(logic, orm_db):
+def prepare_user(logic):
     user_tuple = namedtuple('User', 'login, email, password, new_password')
     user = user_tuple(
         login=user_data.login,
@@ -54,96 +55,13 @@ def prepare_user(logic, orm_db):
         email=user_data.email,
         new_password=user_data.new_password
     )
-    orm_db.delete_user_by_login(login=user.login)
-    dataset = orm_db.get_user_by_login(login=user.login)
+    logic.provider.db.orm_dm3_5.delete_user_by_login(login=user.login)
+    dataset = logic.provider.db.orm_dm3_5.get_user_by_login(login=user.login)
     assert len(dataset) == 0
-    logic.mailhog.delete_all_messages()
+    logic.provider.http.mailhog.delete_all_messages()
     return user
 
 
 @pytest.fixture
-def mailhog():
-    return MailhogApi(
-        host=v.get('service.mailhog'),
-        disable_log=v.get('disable_log')
-    )
-
-
-@pytest.fixture
-def account_api():
-    return AccountApi(
-        host=v.get('service.dm_api_account'),
-        disable_log=v.get('disable_log')
-    )
-
-
-@pytest.fixture
-def login_api():
-    return LoginApi(
-        host=v.get('service.dm_api_account'),
-        disable_log=v.get('disable_log')
-    )
-
-
-@pytest.fixture
-def logic(mailhog, account_api, login_api):
-    return LogicProvider(
-        account_api=account_api,
-        login_api=login_api,
-        mailhog_api=mailhog,
-    )
-
-
-@pytest.fixture
-def orm_db(request):
-    orm = OrmDatabase(
-        user=v.get('database.dm3_5.user'),
-        password=v.get('database.dm3_5.password'),
-        database=v.get('database.dm3_5.database'),
-        host=v.get('database.dm3_5.host'),
-        disable_log=v.get('disable_log')
-    )
-
-    def fin():
-        orm.orm.close_connection()
-
-    request.addfinalizer(fin)
-    return orm
-
-
-@pytest.fixture
-def dm_db(request):
-    connect = DmDatabase(
-        user=v.get('database.dm3_5.user'),
-        password=v.get('database.dm3_5.password'),
-        database=v.get('database.dm3_5.database'),
-        host=v.get('database.dm3_5.host'),
-        disable_log=v.get('disable_log')
-    )
-
-    def fin():
-        connect.db.db.close()
-
-    request.addfinalizer(fin)
-
-    return connect
-
-
-@pytest.fixture
-def grpc_search():
-    client = Search(target=v.get('service.dm_api_search'))
-    yield client
-    client.grpc_search.close()
-
-
-@pytest.fixture
-def grpc_search_async():
-    channel = Channel(host='localhost', port=5052)
-    client = SearchEngineStub(channel)
-    yield client
-    channel.close()
-
-
-@pytest.fixture
-def assertion(orm_db):
-    return AssertionsPostV1Account(orm_db)
+def logic(set_config):
+    return LogicProvider()

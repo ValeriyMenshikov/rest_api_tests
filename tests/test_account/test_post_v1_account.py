@@ -36,33 +36,31 @@ class TestsPostV1Account:
     def test_create_and_activated_user_with_random_params(
             self,
             logic,
-            dm_db,
             login,
             email,
             password,
-            assertion,
             status_code,
             check
     ):
-        dm_db.delete_user_by_login(login=login)
-        logic.mailhog.delete_all_messages()
-        response = logic.account.register_new_user(
+        logic.provider.db.orm_dm3_5.delete_user_by_login(login=login)
+        logic.provider.http.mailhog.delete_all_messages()
+        response = logic.account_helper.register_new_user(
             login=login,
             email=email,
             password=password,
             status_code=status_code
         )
         if status_code == 201:
-            assertion.check_user_was_created(login=login)
-            logic.account.activate_registered_user(login=login)
-            assertion.check_user_was_activated(login=login)
-            logic.login.login_user(login=login, password=password)
+            logic.assertions_helper.post_v1_account.check_user_was_created(login=login)
+            logic.account_helper.activate_registered_user(login=login)
+            logic.assertions_helper.post_v1_account.check_user_was_activated(login=login)
+            logic.login_helper.login_user(login=login, password=password)
         else:
             error_message = response.json()['errors']
             assert_that(error_message, has_entries(check))
 
     @allure.title("Проверка регистрации и активации пользователя")
-    def test_register_and_activate_user(self, logic, dm_db, prepare_user, assertion):
+    def test_register_and_activate_user(self, logic, prepare_user):
         """
         Тест проверяет создание и активацию пользователя в базе данных
         """
@@ -70,8 +68,8 @@ class TestsPostV1Account:
         email = prepare_user.email
         password = prepare_user.password
 
-        logic.account.register_new_user(login=login, email=email, password=password)
-        assertion.check_user_was_created(login=login)
-        logic.account.activate_registered_user(login=login)
-        assertion.check_user_was_activated(login=login)
-        logic.login.login_user(login=login, password=password)
+        logic.account_helper.register_new_user(login=login, email=email, password=password)
+        logic.assertions_helper.post_v1_account.check_user_was_created(login=login)
+        logic.account_helper.activate_registered_user(login=login)
+        logic.assertions_helper.post_v1_account.check_user_was_activated(login=login)
+        logic.login_helper.login_user(login=login, password=password)

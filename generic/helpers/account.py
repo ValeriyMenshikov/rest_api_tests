@@ -8,17 +8,19 @@ from modules.http.dm_api_account.models import (
     UserEnvelope,
     UserDetailsEnvelope
 )
-from modules.http.mailhog.mailhog import TokenType
+from modules.http.mailhog.client import TokenType
 
 
 class Account:
-    def __init__(self, facade):
-        from generic.helpers import LogicProvider
-        self.facade: LogicProvider = facade
+    def __init__(self, logic_provider):
+        from generic import LogicProvider
+        self.logic_provider: LogicProvider = logic_provider
+        self.account_api = self.logic_provider.provider.http.dm_api_account.account_client
+        self.mailhog_api = self.logic_provider.provider.http.mailhog
 
     def set_headers(self, headers):
         """Set the headers in class helper - Account"""
-        self.facade.account_api.client.session.headers.update(headers)
+        self.logic_provider.provider.http.dm_api_account.account_client.client.session.headers.update(headers)
 
     def register_new_user(
             self,
@@ -28,7 +30,7 @@ class Account:
             status_code: int = 201
     ) -> Response:
         with allure.step('registration new user'):
-            response = self.facade.account_api.post_v1_account(
+            response = self.account_api.post_v1_account(
                 status_code=status_code,
                 json=Registration(
                     login=login,
@@ -44,27 +46,29 @@ class Account:
             token_type: TokenType = TokenType.ACTIVATE
     ) -> UserEnvelope:
         with allure.step('activate_registered_user'):
-            token = self.facade.mailhog.get_token_by_login(login=login, token_type=token_type)
-            response = self.facade.account_api.put_v1_account_token(
+            token = self.mailhog_api.get_token_by_login(login=login, token_type=token_type)
+            response = self.account_api.put_v1_account_token(
                 token=token
             )
         return response
 
     def get_current_user(self, **kwargs) -> UserDetailsEnvelope | Response:
         with allure.step('get_current_user'):
-            return self.facade.account_api.get_v1_account(**kwargs)
+            return self.account_api.get_v1_account(**kwargs)
 
     def reset_user_password(
             self,
             login: str,
-            email: str
+            email: str,
+            **kwargs,
     ) -> UserEnvelope | Response:
         with allure.step('reset_user_password'):
-            response = self.facade.account_api.post_v1_account_password(
+            response = self.account_api.post_v1_account_password(
                 json=ResetPassword(
                     login=login,
                     email=email
-                )
+                ),
+                **kwargs,
             )
         return response
 
@@ -75,7 +79,7 @@ class Account:
             email: str
     ) -> UserEnvelope | Response:
         with allure.step('change_user_email'):
-            response = self.facade.account_api.put_v1_account_email(
+            response = self.account_api.put_v1_account_email(
                 json=ChangeEmail(
                     login=login,
                     password=password,
@@ -89,15 +93,17 @@ class Account:
             login: str,
             password: str,
             new_password: str,
-            token: str
+            token: str,
+            **kwargs,
     ) -> UserEnvelope | Response:
         with allure.step('change_user_email'):
-            response = self.facade.account_api.put_v1_account_password(
+            response = self.account_api.put_v1_account_password(
                 json=ChangePassword(
                     login=login,
                     token=token,
                     oldPassword=password,
                     newPassword=new_password,
-                )
+                ),
+                **kwargs,
             )
         return response

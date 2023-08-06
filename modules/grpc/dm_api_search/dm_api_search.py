@@ -3,7 +3,6 @@ import structlog
 import uuid
 
 from google.protobuf.json_format import MessageToDict
-
 from modules.grpc.dm_api_search.search_pb2 import SearchRequest, SearchResponse
 from modules.grpc.dm_api_search.search_pb2_grpc import SearchEngineStub
 

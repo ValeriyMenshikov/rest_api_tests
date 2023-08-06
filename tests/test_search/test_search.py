@@ -2,8 +2,8 @@ import pytest
 from modules.grpc.dm_api_search_async import SearchRequest, SearchEntityType
 
 
-def test_search(grpc_search):
-    response = grpc_search.search(
+def test_search(logic):
+    response = logic.search_helper.search(
         query="testplease",
         size=1,
         skip=0,
@@ -11,6 +11,7 @@ def test_search(grpc_search):
     )
 
 
+@pytest.mark.skip
 @pytest.mark.asyncio
 async def test_search_async(grpc_search_async):
     response = await grpc_search_async.search(

@@ -5,7 +5,7 @@ service:
 
 database:
   dm3_5:
-    host: http://5.63.153.31
+    host: 5.63.153.31
     port: 5432
     database: dm3.5
     user: postgres

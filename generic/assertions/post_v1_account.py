@@ -1,11 +1,12 @@
 import allure
 from hamcrest import assert_that, has_entries, has_properties
-from modules.db.dm3_5.dm_db import DmDatabase
 
 
 class AssertionsPostV1Account:
-    def __init__(self, db: DmDatabase):
-        self.db = db
+    def __init__(self, logic_provider):
+        from generic import LogicProvider
+        self.logic_provider: LogicProvider = logic_provider
+        self.db = self.logic_provider.provider.db.dm3_5
 
     def check_user_was_created(self, login):
         with allure.step("Проверка что пользователь был создан"):
@@ -28,7 +29,7 @@ class AssertionsPostV1Account:
         with allure.step('check registered new user'):
             dataset = self.db.get_user_by_login(login=login)
             for row in dataset:
-                assert_that(row, has_properties(
+                assert_that(row, has_entries(
                     {
                         'Login': login,
                         'Activated': False
