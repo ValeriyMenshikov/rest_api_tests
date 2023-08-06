@@ -1,5 +1,4 @@
 import allure
-
 from db_client.db_client import DbClient
 
 
