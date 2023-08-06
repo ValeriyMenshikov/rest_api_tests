@@ -8,7 +8,7 @@ from modules.http.dm_api_account.models import (
     UserEnvelope,
     UserDetailsEnvelope
 )
-from modules.http.mailhog.client import TokenType
+from generic.helpers.mailhog import TokenType
 
 
 class Account:
@@ -16,7 +16,6 @@ class Account:
         from generic import LogicProvider
         self.logic_provider: LogicProvider = logic_provider
         self.account_api = self.logic_provider.provider.http.dm_api_account.account_client
-        self.mailhog_api = self.logic_provider.provider.http.mailhog
 
     def set_headers(self, headers):
         """Set the headers in class helper - Account"""
@@ -46,7 +45,7 @@ class Account:
             token_type: TokenType = TokenType.ACTIVATE
     ) -> UserEnvelope:
         with allure.step('activate_registered_user'):
-            token = self.mailhog_api.get_token_by_login(login=login, token_type=token_type)
+            token = self.logic_provider.mailhog_helper.get_token_by_login(login=login, token_type=token_type)
             response = self.account_api.put_v1_account_token(
                 token=token
             )

@@ -24,6 +24,11 @@ class LogicProvider:
         return Search(self)
 
     @cached_property
+    def mailhog_helper(self):
+        from generic.helpers.mailhog import MailHog
+        return MailHog(self)
+
+    @cached_property
     def assertions_helper(self):
         from generic.assertions import AssertionsHelper
         return AssertionsHelper(self)
