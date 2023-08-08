@@ -1,18 +1,9 @@
-import time
 from collections import namedtuple
 import pytest
 import structlog
 from vyper import v
 from pathlib import Path
-# from generic.assertions.post_v1_account import AssertionsPostV1Account
-# from modules.db.dm3_5.dm_db import DmDatabase
-# from modules.http.dm_api_account.apis import AccountApi, LoginApi
-# from modules.http.mailhog.mailhog import MailhogApi
-# from modules.db.dm3_5.orm_db import OrmDatabase
-# from generic.helpers.search import Search
 from generic import LogicProvider
-# from modules.grpc.dm_api_search_async import SearchEngineStub
-# from grpclib.client import Channel
 from data.post_v1_account import PostV1AccountData as user_data
 
 structlog.configure(
