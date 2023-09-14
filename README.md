@@ -33,16 +33,16 @@ docker run -it --rm rest_api_tests
 
 ### Используемые технологии
 <p  align="center">
-  <code><img width="5%" title="Pycharm" src="images/logo_stacks/pycharm.png"></code>
-  <code><img width="5%" title="Python" src="images/logo_stacks/python.png"></code>
-  <code><img width="5%" title="Pytest" src="images/logo_stacks/pytest.png"></code>
-  <code><img width="5%" title="Postman" src="images/logo_stacks/postman.png"></code>
-  <code><img width="5%" title="Docker" src="images/logo_stacks/docker.png"></code>
-  <code><img width="5%" title="Requests" src="images/logo_stacks/requests.png"></code>
-  <code><img width="5%" title="GitHub" src="images/logo_stacks/github.png"></code>
-  <code><img width="5%" title="Allure Report" src="images/logo_stacks/allure_report.png"></code>
-  <code><img width="5%" title="gRPC" src="images/logo_stacks/grpc.png"></code>
-  <code><img width="5%" title="OpenApi" src="images/logo_stacks/openapi.png"></code>
+  <code><img width="5%" src="images/logo_stacks/pycharm.png"></code>
+  <code><img width="5%" src="images/logo_stacks/python.png"></code>
+  <code><img width="5%" src="images/logo_stacks/pytest.png"></code>
+  <code><img width="5%" src="images/logo_stacks/postman.png"></code>
+  <code><img width="5%" src="images/logo_stacks/docker.png"></code>
+  <code><img width="5%" src="images/logo_stacks/requests.png"></code>
+  <code><img width="5%" src="images/logo_stacks/github.png"></code>
+  <code><img width="5%" src="images/logo_stacks/allure_report.png"></code>
+  <code><img width="5%" src="images/logo_stacks/grpc.png"></code>
+  <code><img width="5%" src="images/logo_stacks/openapi.png"></code>
 </p>
 
 ### Архитектура проекта

@@ -111,7 +111,7 @@ class UserDetails(BaseModel):
     original_picture_url: Optional[StrictStr] = Field(
         None, alias='originalPictureUrl', description='URL of profile picture original'
     )
-    info: Optional[InfoBbText] = None
+    info: Optional[Any]
     settings: Optional[UserSettings] = None
 
 
@@ -120,4 +120,4 @@ class UserDetailsEnvelope(BaseModel):
         extra = Extra.forbid
 
     resource: Optional[UserDetails] = None
-    metadata: Optional[Any] = Field(None, description='Additional metadata')
+    metadata: Optional[Any] = Field("None", description='Additional metadata')

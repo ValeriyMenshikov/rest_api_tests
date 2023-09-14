@@ -25,7 +25,7 @@ class Login:
                 json=LoginCredentials(
                     login=login,
                     password=password,
-                    rememberMe=remember_me,
+                    remember_me=remember_me,
                 )
             )
         return response

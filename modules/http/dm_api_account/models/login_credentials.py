@@ -9,4 +9,5 @@ class LoginCredentials(BaseModel):
 
     login: Optional[StrictStr]
     password: Optional[StrictStr]
-    remember_me: Optional[bool] = Field(None, alias='rememberMe')
+    rememberMe: Optional[bool] = Field(None, alias='remember_me')
+

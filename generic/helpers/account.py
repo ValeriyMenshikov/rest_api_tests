@@ -100,8 +100,8 @@ class Account:
                 json=ChangePassword(
                     login=login,
                     token=token,
-                    oldPassword=password,
-                    newPassword=new_password,
+                    old_password=password,
+                    new_password=new_password,
                 ),
                 **kwargs,
             )
