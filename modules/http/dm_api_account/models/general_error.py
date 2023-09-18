@@ -5,6 +5,6 @@ from pydantic import BaseModel, StrictStr, Extra, Field
 
 class GeneralError(BaseModel):
     class Config:
-        extra = Extra.forbid
+        extra = 'forbid'
 
     message: Optional[StrictStr] = Field(None, description='Client message')

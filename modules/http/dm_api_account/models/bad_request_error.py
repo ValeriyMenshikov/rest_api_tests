@@ -5,7 +5,7 @@ from pydantic import BaseModel, Extra, Field, StrictStr
 
 class BadRequestError(BaseModel):
     class Config:
-        extra = Extra.forbid
+        extra = 'forbid'
 
     message: Optional[StrictStr] = Field(None, description='Client message')
     invalid_properties: Optional[Dict[str, List[StrictStr]]] = Field(

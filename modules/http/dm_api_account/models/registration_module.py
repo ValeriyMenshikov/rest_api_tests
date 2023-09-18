@@ -5,7 +5,7 @@ from pydantic import BaseModel, StrictStr, Extra, Field
 
 class Registration(BaseModel):
     class Config:
-        extra = Extra.forbid
+        extra = 'forbid'
 
     login: Optional[StrictStr] = Field(None, description='Login')
     password: Optional[StrictStr] = Field(None, description='Password')
