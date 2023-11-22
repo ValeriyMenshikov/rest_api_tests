@@ -9,8 +9,8 @@ on:
         default: second_test
         type: choice
         options:
-          - first_test
-          - second_test
+          - smoke
+          - functional
           - all
 
 permissions:
@@ -84,6 +84,14 @@ jobs:
       - name: all
         if: "github.event.inputs.deployment_target == 'all'"
         run: pytest --alluredir=allure-results
+        continue-on-error: true
+      - name: smoke
+        if: "github.event.inputs.deployment_target == 'smoke'"
+        run: pytest --alluredir=allure-results -m smoke
+        continue-on-error: true
+      - name: functional
+        if: "github.event.inputs.deployment_target == 'smoke'"
+        run: pytest --alluredir=allure-results -m smoke
         continue-on-error: true
       - name: Store allure results
         uses: actions/upload-artifact@v3
