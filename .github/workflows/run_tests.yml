@@ -6,7 +6,7 @@ on:
       deployment_target:
         description: Choose target
         required: true
-        default: second_test
+        default: all
         type: choice
         options:
           - smoke
@@ -67,6 +67,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: download-history
+    name: Python tests
 
     steps:
       - name: Checkout repository
