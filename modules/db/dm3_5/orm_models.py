@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, DateTime, Float, ForeignKey, Integer, SmallInteger, String, Text, text, MetaData
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, declarative_base
+
 
 metadata = MetaData()
 Base = declarative_base(metadata=metadata)
