@@ -429,7 +429,7 @@ class RoomClaim(Base):
     Policy = Column(Integer, nullable=False)
 
     Character = relationship('Character')
-    Reader = relationship('Reader')
+    Reader = relationship('Reader', overlaps="Character")
     Room = relationship('Room')
 
 
