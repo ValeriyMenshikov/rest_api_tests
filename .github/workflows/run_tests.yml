@@ -132,3 +132,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1.2.9
+      - run: echo https://valeriymenshikov.github.io/rest_api_tests/
