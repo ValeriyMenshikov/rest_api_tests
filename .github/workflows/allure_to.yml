@@ -1,55 +1,55 @@
-name: Automated tests
-
-on:
-  push:
-  workflow_dispatch:
-    inputs:
-      ALLURE_JOB_RUN_ID:
-      ALLURE_USERNAME:
-
-env:
-  ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
-  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
-  ALLURE_ENDPOINT: https://seniortester.testops.cloud/
-  ALLURE_PROJECT_ID: 34
-  ALLURE_RESULTS: allure-results
-
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install Chrome
-        run: sudo apt-get install google-chrome-stable
-      - name: install dependencies
-        run: pip install -r requirements.txt
-      - name: Install allurectl
-        uses: allure-framework/setup-allurectl@v1
-        with:
-          allure-endpoint: https://seniortester.testops.cloud/
-          allure-token: ${{ secrets.ALLURE_TOKEN }}
-          allure-project-id: 34
-      - name: run all tests
-        # run: echo $ALLURE_PROJECT_ID
-        run: allurectl watch -- pytest --alluredir=allure-results
-        # continue-on-error: true
-      - name: Store allure results
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results
-          path:
-            allure-results
-          retention-days: 1
+#name: Automated tests
+#
+#on:
+#  push:
+#  workflow_dispatch:
+#    inputs:
+#      ALLURE_JOB_RUN_ID:
+#      ALLURE_USERNAME:
+#
+#env:
+#  ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+#  ALLURE_JOB_RUN_ID: ${{ github.event.inputs.ALLURE_JOB_RUN_ID }}
+#  ALLURE_ENDPOINT: https://seniortester.testops.cloud/
+#  ALLURE_PROJECT_ID: 34
+#  ALLURE_RESULTS: allure-results
+#
+#
+#permissions:
+#  contents: read
+#  pages: write
+#  id-token: write
+#
+#jobs:
+#
+#  test:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v3
+#      - name: setup Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: "3.10"
+#      - name: Install Chrome
+#        run: sudo apt-get install google-chrome-stable
+#      - name: install dependencies
+#        run: pip install -r requirements.txt
+#      - name: Install allurectl
+#        uses: allure-framework/setup-allurectl@v1
+#        with:
+#          allure-endpoint: https://{{username}}.testops.cloud/
+#          allure-token: ${{ secrets.ALLURE_TOKEN }}
+#          allure-project-id: 34
+#      - name: run all tests
+#        # run: echo $ALLURE_PROJECT_ID
+#        run: allurectl watch -- pytest --alluredir=allure-results
+#        continue-on-error: true
+#      - name: Store allure results
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: allure-results
+#          path:
+#            allure-results
+#          retention-days: 1
