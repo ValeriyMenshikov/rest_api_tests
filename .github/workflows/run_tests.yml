@@ -21,6 +21,7 @@ permissions:
 jobs:
   download-history:
     # if: false
+    needs: test
     runs-on: ubuntu-latest
     name: Download history
     steps:
@@ -66,7 +67,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: download-history
     name: Python tests
 
     steps:
