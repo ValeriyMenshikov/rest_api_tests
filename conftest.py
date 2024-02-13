@@ -5,6 +5,7 @@ from vyper import v
 from pathlib import Path
 from generic import LogicProvider
 from data.post_v1_account import PostV1AccountData as user_data
+import os
 
 structlog.configure(
     processors=[
@@ -16,7 +17,9 @@ options = (
     'service.dm_api_account',
     'service.mailhog',
     'database.dm3_5.host'
-    'disable_log'
+    'disable_log',
+    'telegram.chat_id',
+    'telegram.token',
 )
 
 
@@ -29,6 +32,8 @@ def set_config(request):
     v.read_in_config()
     for option in options:
         v.set(option, request.config.getoption(f'--{option}'))
+    os.environ['TELEGRAM_BOT_CHAT_ID'] = v.get('telegram.chat_id')
+    os.environ['TELEGRAM_BOT_ACCESS_TOKEN'] = v.get('telegram.token')
 
 
 def pytest_addoption(parser):
