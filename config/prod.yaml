@@ -12,5 +12,6 @@ database:
     password: admin
 
 telegram:
-  chat_id: '-1001500381492'
+#  chat_id: '-1001500381492'
+  chat_id: '5832407659'
   token: '5832407659:AAGsIZUkwUjWQZEvRzaWp5XmsiNM_rHWhqI'
