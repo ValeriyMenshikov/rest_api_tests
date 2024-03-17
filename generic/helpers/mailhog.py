@@ -1,7 +1,7 @@
 import json
-from dataclasses import dataclass
-from time import sleep
 from enum import Enum
+from time import sleep
+from dataclasses import dataclass
 
 
 @dataclass
@@ -10,7 +10,7 @@ class EmailBodyInfo:
     link_type: str
 
 
-class TokenType(Enum):
+class TokenType(str, Enum):
     RESET_PASSWORD = "reset"
     ACTIVATE = "activate"
 
@@ -46,23 +46,31 @@ class MailHog:
         self, login: str, token_type: TokenType = TokenType.ACTIVATE, attempt: int = 5
     ) -> str:
         """
-        Метод получения токена
-        :param login:
-        :param token_type: activate or reset
-        :param attempt:
-        :return:
+        Method to retrieve a token by login.
+
+        Args:
+            login (str): The user's login.
+            token_type (TokenType): The type of token (activate or reset).
+            attempt (int): The number of attempts to retrieve the token.
+
+        Returns:
+            str: The token associated with the login.
         """
-        if token_type.value == "activate":
+        # Determine the link type based on token type
+        if token_type == TokenType.ACTIVATE:
             link_type = "ConfirmationLinkUrl"
-        elif token_type.value == "reset":
+        elif token_type == TokenType.RESET_PASSWORD:
             link_type = "ConfirmationLinkUri"
         else:
             raise AssertionError(
-                f"token_type should be activate or reset, but token_type == {token_type}"  # noqa: E501
+                f"token_type should be activate or reset, but token_type == {token_type}"
             )
 
+        # Check for valid attempts
         if attempt == 0:
-            raise AssertionError(f"Не удалось получить письмо с логином {login}")
+            raise AssertionError(f"Failed to receive email with login {login}")
+
+        # Retrieve emails and search for the token
         emails = self.mailhog.get_api_v2_messages(limit=100).json()["items"]
         for email in emails:
             user_data = json.loads(email["Content"]["Body"])
@@ -70,6 +78,8 @@ class MailHog:
                 token_link_url = user_data[link_type]
                 token = token_link_url.split("/")[-1]
                 return token
+
+        # Retry if token not found after waiting
         sleep(2)
         return self.get_token_by_login(
             login=login, token_type=token_type, attempt=attempt - 1
