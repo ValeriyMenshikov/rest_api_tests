@@ -1,10 +1,32 @@
-[tool.black]
-line-length = 88
-target-version = ['py310']
+[tool.poetry]
+name = "rest-api-tests"
+version = "0.1.0"
+description = ""
+authors = ["Menshikov Valeriy Sergeevich <vmenshikov@ozon.ru>"]
+readme = "README.md"
 
-[tool.isort]
-profile = "black"
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+curlify = "^2.2.1"
+betterproto = "2.0.0b5"
+vyper-config = "^1.2.1"
+faker = "^24.2.0"
+pyhamcrest = "^2.1.0"
+pydantic = "^2.6.4"
+records = "^0.5.3"
+sqlacodegen = "2.3.0.post1"
+structlog = "^24.1.0"
+telebot = "^0.0.5"
+pytest-telegram-notifier = "^1.4.0"
+psycopg2 = "2.9.9"
+pytest = "7.3.2"
+allure-pytest = "^2.13.3"
+grpcio-tools = "1.54.0"
+autoflake = "^2.3.1"
+pre-commit = "^3.6.2"
 
-[tool.flake8]
-max-line-length = 88
-extend-ignore = "E203, E266, E501, W503"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

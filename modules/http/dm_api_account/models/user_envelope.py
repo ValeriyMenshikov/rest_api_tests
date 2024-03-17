@@ -1,50 +1,48 @@
 from __future__ import annotations
 from datetime import datetime
 from enum import Enum
-from pydantic import BaseModel, StrictStr, Field, Extra, ConfigDict
-from typing import List, Optional, Any
+from pydantic import BaseModel, StrictStr, Field, ConfigDict
+from typing import Any
 
 
 class UserRole(Enum):
-    guest = 'Guest'
-    player = 'Player'
-    administrator = 'Administrator'
-    nanny_moderator = 'NannyModerator'
-    regular_moderator = 'RegularModerator'
-    senior_moderator = 'SeniorModerator'
+    guest = "Guest"
+    player = "Player"
+    administrator = "Administrator"
+    nanny_moderator = "NannyModerator"
+    regular_moderator = "RegularModerator"
+    senior_moderator = "SeniorModerator"
 
 
 class Rating(BaseModel):
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
 
-    enabled: Optional[bool] = Field(None, description='Rating participation flag')
-    quality: Optional[int] = Field(None, description='Quality rating')
-    quantity: Optional[int] = Field(None, description='Quantity rating')
+    enabled: bool | None = Field(None, description="Rating participation flag")
+    quality: int | None = Field(None, description="Quality rating")
+    quantity: int | None = Field(None, description="Quantity rating")
 
 
 class User(BaseModel):
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
 
-    login: Optional[StrictStr] = Field(None, description='Login')
-    roles: Optional[List[UserRole]] = Field(None, description='Roles')
-    medium_picture_url: Optional[StrictStr] = Field(
-        None, alias='mediumPictureUrl', description='Profile picture URL M-size'
+    login: StrictStr | None = Field(None, description="Login")
+    roles: list[UserRole] | None = Field(None, description="Roles")
+    medium_picture_url: StrictStr | None = Field(
+        None, alias="mediumPictureUrl", description="Profile picture URL M-size"
     )
-    small_picture_url: Optional[StrictStr] = Field(
-        None, alias='smallPictureUrl', description='Profile picture URL S-size'
+    small_picture_url: StrictStr | None = Field(
+        None, alias="smallPictureUrl", description="Profile picture URL S-size"
     )
-    status: Optional[StrictStr] = Field(None, description='User defined status')
-    rating: Optional[Rating] = None
-    online: Optional[datetime] = Field(None, description='Last seen online moment')
-    name: Optional[StrictStr] = Field(None, description='User real name')
-    location: Optional[StrictStr] = Field(None, description='User real location')
-    registration: Optional[datetime] = Field(
-        None, description='User registration moment'
-    )
+    status: StrictStr | None = Field(None, description="User defined status")
+    rating: Rating | None = None
+    online: datetime | None = Field(None, description="Last seen online moment")
+    name: StrictStr | None = Field(None, description="User real name")
+    location: StrictStr | None = Field(None, description="User real location")
+    registration: datetime | None = Field(None, description="User registration moment")
 
 
 class UserEnvelope(BaseModel):
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
 
-    resource: Optional[User] = None
-    metadata: Optional[Any] = Field(None, description='Additional metadata')
+    resource: User | None = None
+    metadata: Any | None = Field(None, description="Additional metadata")

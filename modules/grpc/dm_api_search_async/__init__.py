@@ -58,7 +58,7 @@ class SearchEngineStub(betterproto.ServiceStub):
         *,
         timeout: Optional[float] = None,
         deadline: Optional["Deadline"] = None,
-        metadata: Optional["MetadataLike"] = None
+        metadata: Optional["MetadataLike"] = None,
     ) -> "SearchResponse":
         return await self._unary_unary(
             "/SearchEngine/Search",

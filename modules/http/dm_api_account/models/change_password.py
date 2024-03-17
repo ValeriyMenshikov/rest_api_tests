@@ -1,16 +1,15 @@
 from __future__ import annotations
-from typing import Optional
-from pydantic import BaseModel, StrictStr, Extra, Field, ConfigDict
+from pydantic import BaseModel, StrictStr, Field, ConfigDict
 
 
 class ChangePassword(BaseModel):
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
 
-    login: Optional[StrictStr] = Field(None, description='User login')
-    token: Optional[StrictStr] = Field(None, description='Password reset token')
-    oldPassword: Optional[StrictStr] = Field(
-        None, alias='old_password', description='Old password'
+    login: StrictStr | None = Field(None, description="User login")
+    token: StrictStr | None = Field(None, description="Password reset token")
+    oldPassword: StrictStr | None = Field(
+        None, alias="old_password", description="Old password"
     )
-    newPassword: Optional[StrictStr] = Field(
-        None, alias='new_password', description='New password'
+    newPassword: StrictStr | None = Field(
+        None, alias="new_password", description="New password"
     )

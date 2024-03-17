@@ -2,10 +2,12 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from modules.grpc.dm_api_search import search_pb2 as apis_dot_dm__api__search_dot_search__pb2
+from modules.grpc.dm_api_search import (
+    search_pb2 as apis_dot_dm__api__search_dot_search__pb2,
+)
 
 
-class SearchEngineStub(object):
+class SearchEngineStub:
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,52 +17,65 @@ class SearchEngineStub(object):
             channel: A grpc.Channel.
         """
         self.Search = channel.unary_unary(
-                '/SearchEngine/Search',
-                request_serializer=apis_dot_dm__api__search_dot_search__pb2.SearchRequest.SerializeToString,
-                response_deserializer=apis_dot_dm__api__search_dot_search__pb2.SearchResponse.FromString,
-                )
+            "/SearchEngine/Search",
+            request_serializer=apis_dot_dm__api__search_dot_search__pb2.SearchRequest.SerializeToString,
+            response_deserializer=apis_dot_dm__api__search_dot_search__pb2.SearchResponse.FromString,
+        )
 
 
-class SearchEngineServicer(object):
+class SearchEngineServicer:
     """Missing associated documentation comment in .proto file."""
 
     def Search(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
+        context.set_details("Method not implemented!")
+        raise NotImplementedError("Method not implemented!")
 
 
 def add_SearchEngineServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Search': grpc.unary_unary_rpc_method_handler(
-                    servicer.Search,
-                    request_deserializer=apis_dot_dm__api__search_dot_search__pb2.SearchRequest.FromString,
-                    response_serializer=apis_dot_dm__api__search_dot_search__pb2.SearchResponse.SerializeToString,
-            ),
+        "Search": grpc.unary_unary_rpc_method_handler(
+            servicer.Search,
+            request_deserializer=apis_dot_dm__api__search_dot_search__pb2.SearchRequest.FromString,
+            response_serializer=apis_dot_dm__api__search_dot_search__pb2.SearchResponse.SerializeToString,
+        ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'SearchEngine', rpc_method_handlers)
+        "SearchEngine", rpc_method_handlers
+    )
     server.add_generic_rpc_handlers((generic_handler,))
 
 
- # This class is part of an EXPERIMENTAL API.
-class SearchEngine(object):
+# This class is part of an EXPERIMENTAL API.
+class SearchEngine:
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Search(request,
+    def Search(
+        request,
+        target,
+        options=(),
+        channel_credentials=None,
+        call_credentials=None,
+        insecure=False,
+        compression=None,
+        wait_for_ready=None,
+        timeout=None,
+        metadata=None,
+    ):
+        return grpc.experimental.unary_unary(
+            request,
             target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/SearchEngine/Search',
+            "/SearchEngine/Search",
             apis_dot_dm__api__search_dot_search__pb2.SearchRequest.SerializeToString,
             apis_dot_dm__api__search_dot_search__pb2.SearchResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+        )

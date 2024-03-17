@@ -4,7 +4,6 @@ from vyper import v
 
 
 class GRPCConnector:
-
     @cached_property
     def dm_api_search(self) -> DmApiSearch:
-        return DmApiSearch(target=v.get('service.dm_api_search'))
+        return DmApiSearch(target=v.get("service.dm_api_search"))

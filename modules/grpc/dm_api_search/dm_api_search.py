@@ -12,17 +12,14 @@ def grpc_loging(func):
         log = self.log.bind(evet_id=str(uuid.uuid4()))
         method = func.__name__
         log.msg(
-            event='request',
+            event="request",
             method=method,
             channel=self.target,
-            request=MessageToDict(request)
+            request=MessageToDict(request),
         )
         try:
             response = func(self, request, *args, **kwargs)
-            log.msg(
-                event='response',
-                response=MessageToDict(response)
-            )
+            log.msg(event="response", response=MessageToDict(response))
             return response
         except Exception as e:
             print(f"error {e}")
@@ -36,7 +33,7 @@ class DmApiSearch:
         self.target = target
         self.channel = grpc.insecure_channel(target=self.target)
         self.client = SearchEngineStub(channel=self.channel)
-        self.log = structlog.get_logger(self.__class__.__name__).bind(service='grpc')
+        self.log = structlog.get_logger(self.__class__.__name__).bind(service="grpc")
 
     @grpc_loging
     def search(self, request: SearchRequest) -> SearchResponse:

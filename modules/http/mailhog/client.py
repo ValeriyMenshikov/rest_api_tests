@@ -1,8 +1,3 @@
-import json
-import time
-from dataclasses import dataclass
-from enum import Enum, auto
-from time import sleep
 from requests import Response
 from common.restclient import Restclient
 
@@ -20,12 +15,7 @@ class MailhogApi:
         :param limit:
         :return:
         """
-        response = self.client.get(
-            path="/api/v2/messages",
-            params={
-                'limit': limit
-            }
-        )
+        response = self.client.get(path="/api/v2/messages", params={"limit": limit})
 
         return response
 

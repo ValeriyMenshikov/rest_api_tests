@@ -17,23 +17,23 @@ class Restclient:
         self.session = session()
         if headers:
             self.session.headers.update(headers)
-        self.log = structlog.get_logger(self.__class__.__name__).bind(service='api')
+        self.log = structlog.get_logger(self.__class__.__name__).bind(service="api")
 
     @allure_attach
     def post(self, path: str, **kwargs) -> Response:
-        return self._send_requests('POST', path, **kwargs)
+        return self._send_requests("POST", path, **kwargs)
 
     @allure_attach
     def get(self, path: str, **kwargs) -> Response:
-        return self._send_requests('GET', path, **kwargs)
+        return self._send_requests("GET", path, **kwargs)
 
     @allure_attach
     def put(self, path: str, **kwargs) -> Response:
-        return self._send_requests('PUT', path, **kwargs)
+        return self._send_requests("PUT", path, **kwargs)
 
     @allure_attach
     def delete(self, path: str, **kwargs) -> Response:
-        return self._send_requests('DELETE', path, **kwargs)
+        return self._send_requests("DELETE", path, **kwargs)
 
     def _send_requests(self, method, path, **kwargs):
         full_url = self.host + path
@@ -43,36 +43,29 @@ class Restclient:
             return self.session.request(method=method, url=full_url, **kwargs)
 
         log.msg(
-            event='request',
+            event="request",
             method=method,
             full_url=full_url,
-            params=kwargs.get('params'),
-            headers=kwargs.get('headers'),
-            json=kwargs.get('json'),
-            data=kwargs.get('data')
+            params=kwargs.get("params"),
+            headers=kwargs.get("headers"),
+            json=kwargs.get("json"),
+            data=kwargs.get("data"),
         )
 
-        rest_response = self.session.request(
-            method=method,
-            url=full_url,
-            **kwargs
-        )
+        rest_response = self.session.request(method=method, url=full_url, **kwargs)
 
         curl = curlify.to_curl(rest_response.request)
-        allure.attach(
-            curl,
-            name='curl',
-            attachment_type=allure.attachment_type.TEXT)
-        print(curl)
+        allure.attach(curl, name="curl", attachment_type=allure.attachment_type.TEXT)
+        print(curl)  # noqa: T201
 
         log.msg(
-            event='response',
+            event="response",
             status_code=rest_response.status_code,
             headers=rest_response.headers,
             json=self._get_json(rest_response),
             text=rest_response.text,
             content=rest_response.content,
-            curl=curl
+            curl=curl,
         )
         return rest_response
 

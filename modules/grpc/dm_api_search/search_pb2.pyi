@@ -41,7 +41,9 @@ class _SearchEntityType:
     ValueType = NewType("ValueType", int)
     V: typing_extensions.TypeAlias = ValueType
 
-class _SearchEntityTypeEnumTypeWrapper(_EnumTypeWrapper[_SearchEntityType.ValueType], type):
+class _SearchEntityTypeEnumTypeWrapper(
+    _EnumTypeWrapper[_SearchEntityType.ValueType], type
+):
     DESCRIPTOR: EnumDescriptor
     UNKNOWN: _SearchEntityType.ValueType  # 0
     FORUM_TOPIC: _SearchEntityType.ValueType  # 1
@@ -49,7 +51,9 @@ class _SearchEntityTypeEnumTypeWrapper(_EnumTypeWrapper[_SearchEntityType.ValueT
     GAME: _SearchEntityType.ValueType  # 3
     USER: _SearchEntityType.ValueType  # 4
 
-class SearchEntityType(_SearchEntityType, metaclass=_SearchEntityTypeEnumTypeWrapper): ...
+class SearchEntityType(
+    _SearchEntityType, metaclass=_SearchEntityTypeEnumTypeWrapper
+): ...
 
 UNKNOWN: SearchEntityType.ValueType  # 0
 FORUM_TOPIC: SearchEntityType.ValueType  # 1
@@ -67,7 +71,9 @@ class SearchRequest(Message):
     SIZE_FIELD_NUMBER: int
     query: str
     @property
-    def searchAcross(self) -> RepeatedScalarFieldContainer[SearchEntityType.ValueType]: ...
+    def searchAcross(
+        self,
+    ) -> RepeatedScalarFieldContainer[SearchEntityType.ValueType]: ...
     skip: int
     size: int
     def __init__(
@@ -78,7 +84,19 @@ class SearchRequest(Message):
         skip: int = ...,
         size: int = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["query", b"query", "searchAcross", b"searchAcross", "size", b"size", "skip", b"skip"]) -> None: ...
+    def ClearField(
+        self,
+        field_name: typing_extensions.Literal[
+            "query",
+            b"query",
+            "searchAcross",
+            b"searchAcross",
+            "size",
+            b"size",
+            "skip",
+            b"skip",
+        ],
+    ) -> None: ...
 
 @typing_extensions.final
 class SearchResponse(Message):
@@ -107,17 +125,38 @@ class SearchResponse(Message):
             originalTitle: str = ...,
             foundText: str = ...,
         ) -> None: ...
-        def ClearField(self, field_name: typing_extensions.Literal["foundText", b"foundText", "foundTitle", b"foundTitle", "id", b"id", "originalTitle", b"originalTitle", "type", b"type"]) -> None: ...
+        def ClearField(
+            self,
+            field_name: typing_extensions.Literal[
+                "foundText",
+                b"foundText",
+                "foundTitle",
+                b"foundTitle",
+                "id",
+                b"id",
+                "originalTitle",
+                b"originalTitle",
+                "type",
+                b"type",
+            ],
+        ) -> None: ...
 
     TOTAL_FIELD_NUMBER: int
     ENTITIES_FIELD_NUMBER: int
     total: int
     @property
-    def entities(self) -> RepeatedCompositeFieldContainer[SearchResponse.SearchResultEntity]: ...
+    def entities(
+        self,
+    ) -> RepeatedCompositeFieldContainer[SearchResponse.SearchResultEntity]: ...
     def __init__(
         self,
         *,
         total: int = ...,
         entities: Iterable[SearchResponse.SearchResultEntity] | None = ...,
     ) -> None: ...
-    def ClearField(self, field_name: typing_extensions.Literal["entities", b"entities", "total", b"total"]) -> None: ...
+    def ClearField(
+        self,
+        field_name: typing_extensions.Literal[
+            "entities", b"entities", "total", b"total"
+        ],
+    ) -> None: ...
