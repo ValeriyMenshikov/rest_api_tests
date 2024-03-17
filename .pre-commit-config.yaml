@@ -16,6 +16,18 @@ repos:
       - id: black
         exclude: ^modules/grpc
 
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [ '--order-by-type', '--length-sort', "--profile", "black", "--filter-files" ]
+        exclude: ^modules/grpc
+
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.6.4
+    hooks:
+      - id: isort
+        additional_dependencies: [ 'black' ]
 
   - repo: http://github.com/pycqa/flake8
     rev: 7.0.0
@@ -39,9 +51,3 @@ repos:
         args: [ --fix ]
         exclude: ^modules/grpc
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
-    hooks:
-      - id: isort
-        args: ['--order-by-type', '--length-sort', "--profile", "black", "--filter-files"]
-        exclude: ^modules/grpc
