@@ -1,0 +1,25 @@
+[tool.pre-commit]
+exclude = ".venv"
+default_stages = "commit"
+
+repos = [
+    'https://github.com/pre-commit/pre-commit-hooks'
+]
+
+[tool.pre-commit.hooks]
+check-added-large-files = {}
+check-ast = {}
+check-byte-order-marker = {}
+check-case-conflict = {}
+check-docstring-first = {}
+check-executables-have-shebangs = {}
+check-json = {}
+check-merge-conflict = {}
+check-toml = {}
+check-yaml = {}
+debug-statements = {}
+detect-aws-credentials = {}
+detect-private-key = {}
+end-of-file-fixer = {}
+requirements-txt-fixer = {}
+trailing-whitespace = {}
