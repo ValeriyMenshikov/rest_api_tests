@@ -11,8 +11,8 @@ from data.post_v1_account import PostV1AccountData as user_data
 
 structlog.configure(
     processors=[
-        structlog.processors.JSONRenderer(indent=4, sort_keys=True, ensure_ascii=False)
-    ]
+        structlog.processors.JSONRenderer(indent=4, sort_keys=True, ensure_ascii=False),
+    ],
 )
 
 options = (

@@ -13,7 +13,8 @@ repos:
   - repo: https://github.com/asottile/add-trailing-comma
     rev: v3.1.0
     hooks:
-    -   id: add-trailing-comma
+      - id: add-trailing-comma
+        exclude: ^modules/grpc
 
   - repo: http://github.com/psf/black
     rev: 24.3.0

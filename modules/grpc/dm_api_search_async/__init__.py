@@ -75,7 +75,7 @@ class SearchEngineBase(ServiceBase):
         raise grpclib.GRPCError(grpclib.const.Status.UNIMPLEMENTED)
 
     async def __rpc_search(
-        self, stream: "grpclib.server.Stream[SearchRequest, SearchResponse]"
+        self, stream: "grpclib.server.Stream[SearchRequest, SearchResponse]",
     ) -> None:
         request = await stream.recv_message()
         response = await self.search(request)

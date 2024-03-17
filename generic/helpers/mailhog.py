@@ -36,14 +36,15 @@ class MailHog:
         """
         sleep(2)
         emails = self.mailhog.get_api_v2_messages(limit=1).json()
-        token_url = json.loads(emails["items"][0]["Content"]["Body"])[
-            "ConfirmationLinkUrl"
-        ]
+        token_url = json.loads(emails["items"][0]["Content"]["Body"])["ConfirmationLinkUrl"]
         token = token_url.split("/")[-1]
         return token
 
     def get_token_by_login(
-        self, login: str, token_type: TokenType = TokenType.ACTIVATE, attempt: int = 5
+        self,
+        login: str,
+        token_type: TokenType = TokenType.ACTIVATE,
+        attempt: int = 5,
     ) -> str:
         """
         Method to retrieve a token by login.
@@ -63,7 +64,7 @@ class MailHog:
             link_type = "ConfirmationLinkUri"
         else:
             raise AssertionError(
-                f"token_type should be activate or reset, but token_type == {token_type}"
+                f"token_type should be activate or reset, but token_type == {token_type}",
             )
 
         # Check for valid attempts
@@ -82,5 +83,7 @@ class MailHog:
         # Retry if token not found after waiting
         sleep(2)
         return self.get_token_by_login(
-            login=login, token_type=token_type, attempt=attempt - 1
+            login=login,
+            token_type=token_type,
+            attempt=attempt - 1,
         )

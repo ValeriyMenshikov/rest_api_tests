@@ -6,7 +6,9 @@ def allure_attach(fn):
         query = kwargs.get("query")
         query = query.compile(compile_kwargs={"literal_binds": True})
         allure.attach(
-            str(query), name="query", attachment_type=allure.attachment_type.TEXT
+            str(query),
+            name="query",
+            attachment_type=allure.attachment_type.TEXT,
         )
         dataset = fn(*args, **kwargs)
         if dataset is not None:

@@ -9,12 +9,19 @@ class Search:
         self.grpc_search = self.logic_provider.provider.grpc.dm_api_search
 
     def search(
-        self, query: str, skip: int, size: int, search_across: list
+        self,
+        query: str,
+        skip: int,
+        size: int,
+        search_across: list,
     ) -> SearchResponse:
         response = self.grpc_search.search(
             request=SearchRequest(
-                query=query, size=size, skip=skip, searchAcross=search_across
-            )
+                query=query,
+                size=size,
+                skip=skip,
+                searchAcross=search_across,
+            ),
         )
         return response
 

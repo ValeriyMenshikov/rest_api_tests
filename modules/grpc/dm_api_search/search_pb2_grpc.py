@@ -42,7 +42,7 @@ def add_SearchEngineServicer_to_server(servicer, server):
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        "SearchEngine", rpc_method_handlers
+        "SearchEngine", rpc_method_handlers,
     )
     server.add_generic_rpc_handlers((generic_handler,))
 
