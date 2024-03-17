@@ -1,25 +1,10 @@
-[tool.pre-commit]
-exclude = ".venv"
-default_stages = "commit"
+[tool.black]
+line-length = 88
+target-version = ['py310']
 
-repos = [
-    'https://github.com/pre-commit/pre-commit-hooks'
-]
+[tool.isort]
+profile = "black"
 
-[tool.pre-commit.hooks]
-check-added-large-files = {}
-check-ast = {}
-check-byte-order-marker = {}
-check-case-conflict = {}
-check-docstring-first = {}
-check-executables-have-shebangs = {}
-check-json = {}
-check-merge-conflict = {}
-check-toml = {}
-check-yaml = {}
-debug-statements = {}
-detect-aws-credentials = {}
-detect-private-key = {}
-end-of-file-fixer = {}
-requirements-txt-fixer = {}
-trailing-whitespace = {}
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203, E266, E501, W503"
