@@ -1,5 +1,6 @@
 from __future__ import annotations
-from pydantic import BaseModel, StrictStr, Field, ConfigDict
+
+from pydantic import Field, BaseModel, StrictStr, ConfigDict
 
 
 class Registration(BaseModel):

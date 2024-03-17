@@ -1,9 +1,10 @@
 from typing import List
 
 import allure
-from sqlalchemy import select, delete, update
-from modules.db.dm3_5.orm_models import User
+from sqlalchemy import delete, select, update
+
 from common.orm_client import OrmClient
+from modules.db.dm3_5.orm_models import User
 
 
 class OrmDatabase:
@@ -39,9 +40,7 @@ class OrmDatabase:
 
     def activate_user_by_db(self, login: str) -> None:
         with allure.step("Активируем пользователя через БД"):
-            query = (
-                update(User).values({User.Activated: True}).where(User.Login == login)
-            )
+            query = update(User).values({User.Activated: True}).where(User.Login == login)
         return self.orm.send_bulk_query(query=query)
 
     def get_user_email(self) -> List[User]:

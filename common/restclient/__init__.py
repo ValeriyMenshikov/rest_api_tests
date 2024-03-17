@@ -2,9 +2,10 @@ import uuid
 
 import allure
 import curlify
-import requests.exceptions
 import structlog
-from requests import session, Response
+import requests.exceptions
+from requests import Response, session
+
 from common.restclient.utilities import allure_attach
 
 

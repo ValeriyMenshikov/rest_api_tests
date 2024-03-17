@@ -1,7 +1,9 @@
 from functools import cached_property
-from modules.db.dm3_5.orm_db import OrmDatabase
-from modules.db.dm3_5.dm_db import DmDatabase
+
 from vyper import v
+
+from modules.db.dm3_5.dm_db import DmDatabase
+from modules.db.dm3_5.orm_db import OrmDatabase
 
 
 class DBConnector:

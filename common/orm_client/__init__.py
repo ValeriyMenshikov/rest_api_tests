@@ -2,6 +2,7 @@ import uuid
 
 import structlog
 from sqlalchemy import create_engine
+
 from common.orm_client.utilities import allure_attach
 
 

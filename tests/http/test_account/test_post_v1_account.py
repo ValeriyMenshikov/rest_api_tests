@@ -1,7 +1,8 @@
+import random
+from string import digits, ascii_letters
+
 import allure
 import pytest
-import random
-from string import ascii_letters, digits
 from hamcrest import assert_that, has_entries
 
 
@@ -34,18 +35,27 @@ class TestsPostV1Account:
 
     @pytest.mark.parametrize("login, email, password, status_code, check", random_data)
     def test_create_and_activated_user_with_random_params(
-        self, logic, login, email, password, status_code, check
+        self,
+        logic,
+        login,
+        email,
+        password,
+        status_code,
+        check,
     ):
         logic.provider.db.orm_dm3_5.delete_user_by_login(login=login)
         logic.provider.http.mailhog.delete_all_messages()
         response = logic.account_helper.register_new_user(
-            login=login, email=email, password=password, status_code=status_code
+            login=login,
+            email=email,
+            password=password,
+            status_code=status_code,
         )
         if status_code == 201:
             logic.assertions_helper.post_v1_account.check_user_was_created(login=login)
             logic.account_helper.activate_registered_user(login=login)
             logic.assertions_helper.post_v1_account.check_user_was_activated(
-                login=login
+                login=login,
             )
             logic.login_helper.login_user(login=login, password=password)
         else:
@@ -62,7 +72,9 @@ class TestsPostV1Account:
         password = prepare_user.password
 
         logic.account_helper.register_new_user(
-            login=login, email=email, password=password
+            login=login,
+            email=email,
+            password=password,
         )
         logic.assertions_helper.post_v1_account.check_user_was_created(login=login)
         logic.account_helper.activate_registered_user(login=login)

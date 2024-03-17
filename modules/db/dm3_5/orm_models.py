@@ -1,19 +1,18 @@
 from sqlalchemy import (
-    Boolean,
-    Column,
-    DateTime,
-    Float,
-    ForeignKey,
-    Integer,
-    SmallInteger,
-    String,
     Text,
-    text,
+    Float,
+    Column,
+    String,
+    Boolean,
+    Integer,
+    DateTime,
     MetaData,
+    ForeignKey,
+    SmallInteger,
+    text,
 )
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, declarative_base
-
+from sqlalchemy.dialects.postgresql import UUID
 
 metadata = MetaData()
 Base = declarative_base(metadata=metadata)
@@ -24,12 +23,14 @@ class Conversation(Base):
 
     ConversationId = Column(UUID, primary_key=True)
     LastMessageId = Column(
-        ForeignKey("Messages.MessageId", ondelete="RESTRICT"), index=True
+        ForeignKey("Messages.MessageId", ondelete="RESTRICT"),
+        index=True,
     )
     Visavi = Column(Boolean, nullable=False, server_default=text("false"))
 
     Message = relationship(
-        "Message", primaryjoin="Conversation.LastMessageId == Message.MessageId"
+        "Message",
+        primaryjoin="Conversation.LastMessageId == Message.MessageId",
     )
 
 
@@ -49,7 +50,9 @@ class Message(Base):
 
     MessageId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     ConversationId = Column(
         ForeignKey("Conversations.ConversationId", ondelete="CASCADE"),
@@ -117,10 +120,14 @@ class Ban(Base):
 
     BanId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     ModeratorId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     StartDate = Column(DateTime(True), nullable=False)
     EndDate = Column(DateTime(True), nullable=False)
@@ -138,7 +145,9 @@ class ChatMessage(Base):
 
     ChatMessageId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     Text = Column(Text)
@@ -152,7 +161,9 @@ class Comment(Base):
     CommentId = Column(UUID, primary_key=True)
     EntityId = Column(UUID, nullable=False, index=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     LastUpdateDate = Column(DateTime(True))
@@ -167,10 +178,14 @@ class ForumModerator(Base):
 
     ForumModeratorId = Column(UUID, primary_key=True)
     ForumId = Column(
-        ForeignKey("Fora.ForumId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Fora.ForumId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
 
     Fora = relationship("Fora")
@@ -185,7 +200,9 @@ class Game(Base):
     ReleaseDate = Column(DateTime(True))
     Status = Column(Integer, nullable=False)
     MasterId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     AssistantId = Column(ForeignKey("Users.UserId", ondelete="RESTRICT"), index=True)
     NannyId = Column(ForeignKey("Users.UserId", ondelete="RESTRICT"), index=True)
@@ -216,7 +233,9 @@ class Like(Base):
     LikeId = Column(UUID, primary_key=True)
     EntityId = Column(UUID, nullable=False, index=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
 
     User = relationship("User")
@@ -227,10 +246,14 @@ class Report(Base):
 
     ReportId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     TargetId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     ReportText = Column(Text)
@@ -248,7 +271,9 @@ class Review(Base):
 
     ReviewId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     Text = Column(Text)
@@ -277,7 +302,9 @@ class Token(Base):
 
     TokenId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     EntityId = Column(UUID, index=True)
     CreateDate = Column(DateTime(True), nullable=False)
@@ -294,7 +321,9 @@ class Upload(Base):
     CreateDate = Column(DateTime(True), nullable=False)
     EntityId = Column(UUID, index=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     FilePath = Column(Text)
     FileName = Column(Text)
@@ -309,7 +338,9 @@ class UserConversationLink(Base):
 
     UserConversationLinkId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     ConversationId = Column(
         ForeignKey("Conversations.ConversationId", ondelete="CASCADE"),
@@ -327,10 +358,14 @@ class Warning(Base):
 
     WarningId = Column(UUID, primary_key=True)
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     ModeratorId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     EntityId = Column(UUID, nullable=False, index=True)
     CreateDate = Column(DateTime(True), nullable=False)
@@ -347,10 +382,14 @@ class BlackListLink(Base):
 
     BlackListLinkId = Column(UUID, primary_key=True)
     GameId = Column(
-        ForeignKey("Games.GameId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Games.GameId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
 
     Game = relationship("Game")
@@ -362,10 +401,14 @@ class Character(Base):
 
     CharacterId = Column(UUID, primary_key=True)
     GameId = Column(
-        ForeignKey("Games.GameId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Games.GameId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     Status = Column(Integer, nullable=False)
     CreateDate = Column(DateTime(True), nullable=False)
@@ -392,10 +435,14 @@ class ForumTopic(Base):
 
     ForumTopicId = Column(UUID, primary_key=True)
     ForumId = Column(
-        ForeignKey("Fora.ForumId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Fora.ForumId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     Title = Column(Text)
@@ -403,7 +450,8 @@ class ForumTopic(Base):
     Attached = Column(Boolean, nullable=False)
     Closed = Column(Boolean, nullable=False)
     LastCommentId = Column(
-        ForeignKey("Comments.CommentId", ondelete="RESTRICT"), index=True
+        ForeignKey("Comments.CommentId", ondelete="RESTRICT"),
+        index=True,
     )
     IsRemoved = Column(Boolean, nullable=False)
 
@@ -417,10 +465,14 @@ class GameTag(Base):
 
     GameTagId = Column(UUID, primary_key=True)
     GameId = Column(
-        ForeignKey("Games.GameId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Games.GameId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     TagId = Column(
-        ForeignKey("Tags.TagId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Tags.TagId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
 
     Game = relationship("Game")
@@ -432,10 +484,14 @@ class Reader(Base):
 
     ReaderId = Column(UUID, primary_key=True)
     GameId = Column(
-        ForeignKey("Games.GameId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Games.GameId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
 
     Game = relationship("Game")
@@ -447,7 +503,9 @@ class Room(Base):
 
     RoomId = Column(UUID, primary_key=True)
     GameId = Column(
-        ForeignKey("Games.GameId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Games.GameId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     Title = Column(Text)
     AccessType = Column(Integer, nullable=False)
@@ -459,10 +517,14 @@ class Room(Base):
 
     Game = relationship("Game")
     parent = relationship(
-        "Room", remote_side=[RoomId], primaryjoin="Room.NextRoomId == Room.RoomId"
+        "Room",
+        remote_side=[RoomId],
+        primaryjoin="Room.NextRoomId == Room.RoomId",
     )
     parent1 = relationship(
-        "Room", remote_side=[RoomId], primaryjoin="Room.PreviousRoomId == Room.RoomId"
+        "Room",
+        remote_side=[RoomId],
+        primaryjoin="Room.PreviousRoomId == Room.RoomId",
     )
 
 
@@ -486,13 +548,19 @@ class PendingPost(Base):
 
     PendingPostId = Column(UUID, primary_key=True)
     AwaitingUserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     PendingUserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     RoomId = Column(
-        ForeignKey("Rooms.RoomId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Rooms.RoomId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
 
@@ -506,17 +574,23 @@ class Post(Base):
 
     PostId = Column(UUID, primary_key=True)
     RoomId = Column(
-        ForeignKey("Rooms.RoomId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Rooms.RoomId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CharacterId = Column(
-        ForeignKey("Characters.CharacterId", ondelete="RESTRICT"), index=True
+        ForeignKey("Characters.CharacterId", ondelete="RESTRICT"),
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     LastUpdateUserId = Column(
-        ForeignKey("Users.UserId", ondelete="RESTRICT"), index=True
+        ForeignKey("Users.UserId", ondelete="RESTRICT"),
+        index=True,
     )
     LastUpdateDate = Column(DateTime(True))
     Text = Column(String)
@@ -541,7 +615,9 @@ class RoomClaim(Base):
         index=True,
     )
     RoomId = Column(
-        ForeignKey("Rooms.RoomId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Rooms.RoomId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     Policy = Column(Integer, nullable=False)
 
@@ -555,16 +631,24 @@ class Vote(Base):
 
     VoteId = Column(UUID, primary_key=True)
     PostId = Column(
-        ForeignKey("Posts.PostId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Posts.PostId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     GameId = Column(
-        ForeignKey("Games.GameId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Games.GameId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     UserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     TargetUserId = Column(
-        ForeignKey("Users.UserId", ondelete="CASCADE"), nullable=False, index=True
+        ForeignKey("Users.UserId", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     CreateDate = Column(DateTime(True), nullable=False)
     Type = Column(Integer, nullable=False)

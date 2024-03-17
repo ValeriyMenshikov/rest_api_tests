@@ -1,8 +1,10 @@
 from __future__ import annotations
-from datetime import datetime
+
 from enum import Enum
-from pydantic import BaseModel, StrictStr, Field, ConfigDict
 from typing import Any
+from datetime import datetime
+
+from pydantic import Field, BaseModel, StrictStr, ConfigDict
 
 
 class UserRole(Enum):
@@ -28,10 +30,14 @@ class User(BaseModel):
     login: StrictStr | None = Field(None, description="Login")
     roles: list[UserRole] | None = Field(None, description="Roles")
     medium_picture_url: StrictStr | None = Field(
-        None, alias="mediumPictureUrl", description="Profile picture URL M-size"
+        None,
+        alias="mediumPictureUrl",
+        description="Profile picture URL M-size",
     )
     small_picture_url: StrictStr | None = Field(
-        None, alias="smallPictureUrl", description="Profile picture URL S-size"
+        None,
+        alias="smallPictureUrl",
+        description="Profile picture URL S-size",
     )
     status: StrictStr | None = Field(None, description="User defined status")
     rating: Rating | None = None

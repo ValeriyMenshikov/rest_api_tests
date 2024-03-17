@@ -10,10 +10,19 @@ repos:
     hooks:
       - id: pip-compile
 
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v3.1.0
+    hooks:
+    -   id: add-trailing-comma
+
   - repo: http://github.com/psf/black
     rev: 24.3.0
     hooks:
       - id: black
+        args: [
+          --line-length=120,
+          --target-version=py310,
+        ]
         exclude: ^modules/grpc
 
   - repo: https://github.com/pycqa/isort

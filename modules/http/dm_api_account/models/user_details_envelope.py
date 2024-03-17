@@ -1,8 +1,10 @@
 from __future__ import annotations
-from datetime import datetime
+
 from enum import Enum
-from pydantic import BaseModel, StrictStr, Field, ConfigDict
 from typing import Any
+from datetime import datetime
+
+from pydantic import Field, BaseModel, StrictStr, ConfigDict
 
 
 class BbParseMode(Enum):
@@ -40,7 +42,9 @@ class PagingSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     posts_per_page: int | None = Field(
-        None, alias="postsPerPage", description="Number of posts on a game room page"
+        None,
+        alias="postsPerPage",
+        description="Number of posts on a game room page",
     )
     comments_per_page: int | None = Field(
         None,
@@ -58,7 +62,9 @@ class PagingSettings(BaseModel):
         description="Number of private messages and conversations on dialogue page",
     )
     entities_per_page: int | None = Field(
-        None, alias="entitiesPerPage", description="Number of other entities on page"
+        None,
+        alias="entitiesPerPage",
+        description="Number of other entities on page",
     )
 
 
@@ -88,10 +94,14 @@ class UserDetails(BaseModel):
     login: StrictStr | None = Field(None, description="Login")
     roles: list[UserRole] | None = Field(None, description="Roles")
     medium_picture_url: StrictStr | None = Field(
-        None, alias="mediumPictureUrl", description="Profile picture URL M-size"
+        None,
+        alias="mediumPictureUrl",
+        description="Profile picture URL M-size",
     )
     small_picture_url: StrictStr | None = Field(
-        None, alias="smallPictureUrl", description="Profile picture URL S-size"
+        None,
+        alias="smallPictureUrl",
+        description="Profile picture URL S-size",
     )
     status: StrictStr | None = Field(None, description="User defined status")
     rating: Rating | None = None
@@ -102,7 +112,9 @@ class UserDetails(BaseModel):
     icq: StrictStr | None = Field(None, description="User ICQ number")
     skype: StrictStr | None = Field(None, description="User Skype login")
     original_picture_url: StrictStr | None = Field(
-        None, alias="originalPictureUrl", description="URL of profile picture original"
+        None,
+        alias="originalPictureUrl",
+        description="URL of profile picture original",
     )
     info: Any | None
     settings: UserSettings | None = None

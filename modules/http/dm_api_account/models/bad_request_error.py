@@ -1,5 +1,6 @@
 from __future__ import annotations
-from pydantic import BaseModel, Field, StrictStr, ConfigDict
+
+from pydantic import Field, BaseModel, StrictStr, ConfigDict
 
 
 class BadRequestError(BaseModel):

@@ -1,6 +1,6 @@
-from modules.http import HTTPConnector
 from modules.db import DBConnector
 from modules.grpc import GRPCConnector
+from modules.http import HTTPConnector
 
 
 class _Provider:

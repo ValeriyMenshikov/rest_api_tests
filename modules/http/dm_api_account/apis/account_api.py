@@ -17,14 +17,22 @@ from modules.http.dm_api_account.utilities import (
 
 
 class AccountApi:
-    def __init__(self, host, headers=None, disable_log=False):
+    def __init__(
+        self,
+        host,
+        headers=None,
+        disable_log=False,
+    ):
         self.host = host
         self.client = Restclient(host=host, headers=headers, disable_log=disable_log)
         if headers:
             self.client.session.headers.update(headers)
 
     def post_v1_account(
-        self, json: Registration, status_code: int = 201, **kwargs
+        self,
+        json: Registration,
+        status_code: int = 201,
+        **kwargs,
     ) -> Response:
         """
         :param status_code:
@@ -34,13 +42,17 @@ class AccountApi:
         """
         with allure.step("Регистрация нового пользователя"):
             response = self.client.post(
-                path="/v1/account", json=validate_request_json(json), **kwargs
+                path="/v1/account",
+                json=validate_request_json(json),
+                **kwargs,
             )
         validate_status_code(response, status_code)
         return response
 
     def get_v1_account(
-        self, status_code: int = 200, **kwargs
+        self,
+        status_code: int = 200,
+        **kwargs,
     ) -> Response | UserDetailsEnvelope:
         """
         Get current user
@@ -54,7 +66,10 @@ class AccountApi:
         return response
 
     def put_v1_account_token(
-        self, token: str, status_code: int = 200, **kwargs
+        self,
+        token: str,
+        status_code: int = 200,
+        **kwargs,
     ) -> UserEnvelope | Response:
         """
         :param status_code:
@@ -70,7 +85,10 @@ class AccountApi:
         return response
 
     def post_v1_account_password(
-        self, json: ResetPassword, status_code: int = 200, **kwargs
+        self,
+        json: ResetPassword,
+        status_code: int = 200,
+        **kwargs,
     ) -> UserEnvelope | Response:
         """
         :param status_code:
@@ -80,7 +98,9 @@ class AccountApi:
         """
         with allure.step("Сбрасываем пароль"):
             response = self.client.post(
-                path="/v1/account/password", json=validate_request_json(json), **kwargs
+                path="/v1/account/password",
+                json=validate_request_json(json),
+                **kwargs,
             )
         validate_status_code(response, status_code)
         if response.status_code == 201:
@@ -88,7 +108,10 @@ class AccountApi:
         return response
 
     def put_v1_account_password(
-        self, json: ChangePassword, status_code: int = 200, **kwargs
+        self,
+        json: ChangePassword,
+        status_code: int = 200,
+        **kwargs,
     ) -> UserEnvelope | Response:
         """
         :param status_code:
@@ -98,7 +121,9 @@ class AccountApi:
         """
         with allure.step("Меняем пароль"):
             response = self.client.put(
-                path="/v1/account/password", json=validate_request_json(json), **kwargs
+                path="/v1/account/password",
+                json=validate_request_json(json),
+                **kwargs,
             )
         validate_status_code(response, status_code)
         if response.status_code == 200:
@@ -106,7 +131,10 @@ class AccountApi:
         return response
 
     def put_v1_account_email(
-        self, json: ChangeEmail, status_code: int = 200, **kwargs
+        self,
+        json: ChangeEmail,
+        status_code: int = 200,
+        **kwargs,
     ) -> UserEnvelope | Response:
         """
         :param status_code:
@@ -116,7 +144,9 @@ class AccountApi:
         """
         with allure.step("Меняем емейл"):
             response = self.client.put(
-                path="/v1/account/email", json=validate_request_json(json), **kwargs
+                path="/v1/account/email",
+                json=validate_request_json(json),
+                **kwargs,
             )
         validate_status_code(response, status_code)
         if response.status_code == 200:

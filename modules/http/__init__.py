@@ -1,7 +1,9 @@
 from functools import cached_property
+
+from vyper import v
+
 from modules.http.mailhog.client import MailhogApi
 from modules.http.dm_api_account.stubs import DmApiAccountHTTPStubs
-from vyper import v
 
 
 class HTTPConnector:
