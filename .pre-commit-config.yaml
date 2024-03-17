@@ -43,5 +43,5 @@ repos:
     rev: 5.13.2
     hooks:
       - id: isort
-        args: [ --profile=black ]
+        args: ['--order-by-type', '--length-sort', "--profile", "black", "--filter-files"]
         exclude: ^modules/grpc
