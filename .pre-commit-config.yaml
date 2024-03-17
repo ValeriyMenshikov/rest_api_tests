@@ -3,18 +3,19 @@ repos:
     rev: v3.3.1
     hooks:
       - id: pyupgrade
+        files: rest_api_tests
 
   - repo: http://github.com/jazzband/pip-tools
     rev: 6.12.0
     hooks:
       - id: pip-compile
-        files: requirements.in
+        files: rest_api_tests/requirements.in
 
   - repo: http://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
       - id: flake8
-        files: \.(py)$
+        files: rest_api_tests
         additional_dependencies:
           - flake8-bugbear
           - flake8-print
@@ -23,9 +24,9 @@ repos:
     rev: 22.12.0
     hooks:
       - id: black
-        files: \.(py)$
+        files: rest_api_tests
 
-#  - repo: http://github.com/pycqa/isort
+# - repo: http://github.com/pycqa/isort
 #    rev: 5.11.2
 #    hooks:
 #      - id: isort
@@ -34,10 +35,10 @@ repos:
     rev: v0.991
     hooks:
       - id: mypy
-        files: \.(py)$
+        files: rest_api_tests
 
   - repo: http://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.189
     hooks:
       - id: ruff
-        files: \.(py)$
+        files: rest_api_tests
