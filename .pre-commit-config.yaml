@@ -26,21 +26,22 @@ repos:
           - flake8-bugbear
           - flake8-print
 
-#  - repo: http://github.com/pre-commit/mirrors-mypy
-#    rev: v0.991
-#    hooks:
-#      - id: mypy
-#        exclude: ^modules/grpc
+  #  - repo: http://github.com/pre-commit/mirrors-mypy
+  #    rev: v0.991
+  #    hooks:
+  #      - id: mypy
+  #        exclude: ^modules/grpc
 
   - repo: http://github.com/charliermarsh/ruff-pre-commit
     rev: v0.3.3
     hooks:
       - id: ruff
-        args: [--fix]
+        args: [ --fix ]
         exclude: ^modules/grpc
 
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
       - id: isort
+        args: [ --profile=black ]
         exclude: ^modules/grpc
