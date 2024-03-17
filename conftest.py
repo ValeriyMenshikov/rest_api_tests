@@ -1,11 +1,13 @@
+import os
+from pathlib import Path
 from collections import namedtuple
+
 import pytest
 import structlog
 from vyper import v
-from pathlib import Path
+
 from generic import LogicProvider
 from data.post_v1_account import PostV1AccountData as user_data
-import os
 
 structlog.configure(
     processors=[

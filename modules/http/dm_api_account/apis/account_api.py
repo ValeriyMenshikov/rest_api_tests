@@ -1,17 +1,18 @@
 import allure
 from requests import Response
+
 from common.restclient import Restclient
-from modules.http.dm_api_account.utilities import (
-    validate_request_json,
-    validate_status_code,
-)
 from modules.http.dm_api_account.models import (
-    Registration,
-    UserDetailsEnvelope,
-    UserEnvelope,
     ChangeEmail,
-    ChangePassword,
+    Registration,
+    UserEnvelope,
     ResetPassword,
+    ChangePassword,
+    UserDetailsEnvelope,
+)
+from modules.http.dm_api_account.utilities import (
+    validate_status_code,
+    validate_request_json,
 )
 
 

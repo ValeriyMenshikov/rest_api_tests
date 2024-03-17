@@ -1,8 +1,10 @@
 import allure
 from requests import Response
+
 from common.restclient import Restclient
-from modules.http.dm_api_account.models import LoginCredentials, UserEnvelope
-from ..utilities import validate_request_json, validate_status_code
+from modules.http.dm_api_account.models import UserEnvelope, LoginCredentials
+
+from ..utilities import validate_status_code, validate_request_json
 
 
 class LoginApi:
