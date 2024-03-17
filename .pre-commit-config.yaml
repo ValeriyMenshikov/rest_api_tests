@@ -30,6 +30,7 @@ repos:
     rev: v0.991
     hooks:
       - id: mypy
+        exclude: ^modules/grpc
 
   - repo: http://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.189
