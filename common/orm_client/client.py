@@ -3,10 +3,11 @@ import uuid
 import structlog
 from sqlalchemy import create_engine
 
+from common.orm_client.singleton import SingletonMeta
 from common.orm_client.utilities import allure_attach
 
 
-class OrmClient:
+class OrmClient(metaclass=SingletonMeta):
     def __init__(
         self,
         user,

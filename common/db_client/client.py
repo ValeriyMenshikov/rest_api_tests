@@ -3,10 +3,11 @@ import uuid
 import records
 import structlog
 
+from common.db_client.singleton import SingletonMeta
 from common.db_client.utilities import allure_attach
 
 
-class DbClient:
+class DbClient(metaclass=SingletonMeta):
     def __init__(
         self,
         user,
