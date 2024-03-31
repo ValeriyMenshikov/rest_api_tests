@@ -19,50 +19,50 @@ permissions:
   id-token: write
 
 jobs:
-  download-history:
-    # if: false
-    runs-on: ubuntu-latest
-    name: Download history
-    steps:
-      - name: setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - run: >
-          ARTIFACT_ID=$(curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          "https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts?name=allure-results"
-          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id']);")
-          &&
-          curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "Authorization: Bearer ${{ secrets.TOKEN }}"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts/$ARTIFACT_ID/zip
-          -o artifacts.zip &&
-          REPORT_ID=$(curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          "https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts?name=github-pages"
-          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id']);")
-          &&
-          curl -L
-          -H "Accept: application/vnd.github+json"
-          -H "Authorization: Bearer ${{ secrets.TOKEN }}"
-          -H "X-GitHub-Api-Version: 2022-11-28"
-          https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts/$REPORT_ID/zip
-          -o pages.zip
-      - run: mkdir allure-results && unzip artifacts.zip -d allure-results
-      - run: mkdir old_pages pages_history && unzip pages.zip -d old_pages && tar -xvf old_pages/artifact.tar -C pages_history
-      - run: cp pages_history/history/* allure-results && cp -r pages_history/history allure-results
-      - name: Store allure history
-        uses: actions/upload-artifact@v3
-        with:
-          name: allure-results
-          path:
-            allure-results
-          retention-days: 1
+#  download-history:
+#    # if: false
+#    runs-on: ubuntu-latest
+#    name: Download history
+#    steps:
+#      - name: setup Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: "3.10"
+#      - run: >
+#          ARTIFACT_ID=$(curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          "https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts?name=allure-results"
+#          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id']);")
+#          &&
+#          curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "Authorization: Bearer ${{ secrets.TOKEN }}"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts/$ARTIFACT_ID/zip
+#          -o artifacts.zip &&
+#          REPORT_ID=$(curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          "https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts?name=github-pages"
+#          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id']);")
+#          &&
+#          curl -L
+#          -H "Accept: application/vnd.github+json"
+#          -H "Authorization: Bearer ${{ secrets.TOKEN }}"
+#          -H "X-GitHub-Api-Version: 2022-11-28"
+#          https://api.github.com/repos/valeriymenshikov/rest_api_tests/actions/artifacts/$REPORT_ID/zip
+#          -o pages.zip
+#      - run: mkdir allure-results && unzip artifacts.zip -d allure-results
+#      - run: mkdir old_pages pages_history && unzip pages.zip -d old_pages && tar -xvf old_pages/artifact.tar -C pages_history
+#      - run: cp pages_history/history/* allure-results && cp -r pages_history/history allure-results
+#      - name: Store allure history
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: allure-results
+#          path:
+#            allure-results
+#          retention-days: 1
 
   test:
     runs-on: ubuntu-latest
