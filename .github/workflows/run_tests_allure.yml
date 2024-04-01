@@ -18,7 +18,9 @@ jobs:
         run: pip install -r requirements.txt
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v3
-        run: pytest --alluredir=allure-results
+      - name: Run tests
+        run: |
+          pytest --alluredir=allure-results
         continue-on-error: true
       - name: Store allure results
         uses: actions/upload-artifact@v3
